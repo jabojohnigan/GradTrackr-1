@@ -13,12 +13,12 @@ public class Graduate {
     String myEmail;
     boolean myTransferStatus;
     boolean myResponseFlag;
-    List<Employers> myEmployers;
+    List<Employer> myEmployers;
     List<Internships> myInternships;
 
     public Graduate(String theName, int theId) {
         myName = theName;
         myStudentID = theId;
     }
-    //TODO: constructors and getters/setters
+
 }
