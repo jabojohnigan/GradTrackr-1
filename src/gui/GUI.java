@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import java.awt.EventQueue;
 
@@ -48,6 +48,7 @@ public class GUI {
 		JButton btnRequestInfo = new JButton("Request Info");
 		btnRequestInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 			}
 		});
 		btnRequestInfo.setBounds(48, 109, 117, 29);
