@@ -1,5 +1,6 @@
 package graduate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  */
 public class Graduate {
 
-
+    int myID;
     String myName;
     int myStudentID;
     String myGraduationYear;
@@ -16,18 +17,18 @@ public class Graduate {
     String myEmail;
     boolean myTransferStatus;
     boolean myResponseFlag;
-    List<Employer> myEmployers;
-    List<Internship> myInternships;
+    List<String> myEmployers;
+    List<String> myInternships;
 
-    public Graduate(String theName, int theId) {
+    public Graduate(String theName, int theStudentID) {
         myName = theName;
-        myStudentID = theId;
+        myStudentID = theStudentID;
     }
 
-    public Graduate(String theName, int theId, String theGraduationYear, Double theGPA, String theEmail,
-                    boolean theTransferStatus, boolean theResponsiveness, List<Employer> theEmployers,
-                    List<Internship> theInternships) {
-        this(theName, theId);
+    public Graduate(String theName, int theStudentID, String theGraduationYear, Double theGPA,
+                    String theEmail, boolean theTransferStatus, boolean theResponsiveness,
+                    List<String> theEmployers, List<String> theInternships) {
+        this(theName, theStudentID);
         myGraduationYear = theGraduationYear;
         myGPA = theGPA;
         myEmail = theEmail;
@@ -37,83 +38,118 @@ public class Graduate {
         myInternships = theInternships;
     }
 
-    public void setMyName(String myName) {
-        this.myName = myName;
+    public static List<String> stringToList(String theString) {
+        String[] splitStr = theString.split(",");
+        List<String> stringList = new ArrayList();
+        for (String s : splitStr){
+            stringList.add(s);
+        }
+        return stringList;
     }
 
-    public void setMyStudentID(int myStudentID) {
-        this.myStudentID = myStudentID;
+    public void setName(String theName) {
+        myName = theName;
     }
 
-    public void setMyGraduationYear(String myGraduationYear) {
-        this.myGraduationYear = myGraduationYear;
+    public void setStudentID(int theStudentID) {
+        myStudentID = theStudentID;
     }
 
-    public void setMySchoolProgram(String mySchoolProgram) {
-        this.mySchoolProgram = mySchoolProgram;
+    public void setGraduationYear(String theGraduationYear) {
+        myGraduationYear = theGraduationYear;
     }
 
-    public void setMyGPA(Double myGPA) {
-        this.myGPA = myGPA;
+    public void setSchoolProgram(String theSchoolProgram) {
+        mySchoolProgram = theSchoolProgram;
     }
 
-    public void setMyEmail(String myEmail) {
-        this.myEmail = myEmail;
+    public void setGPA(Double theGPA) {
+        myGPA = theGPA;
     }
 
-    public void setMyTransferStatus(boolean myTransferStatus) {
-        this.myTransferStatus = myTransferStatus;
+    public void setEmail(String theEmail) {
+        myEmail = theEmail;
     }
 
-    public void setMyResponseFlag(boolean myResponseFlag) {
-        this.myResponseFlag = myResponseFlag;
+    public void setTransferStatus(boolean theTransferStatus) {
+        myTransferStatus = theTransferStatus;
     }
 
-    public void setMyEmployers(List<Employer> myEmployers) {
-        this.myEmployers = myEmployers;
+    public void setResponseFlag(boolean theResponseFlag) {
+        myResponseFlag = theResponseFlag;
     }
 
-    public void setMyInternships(List<Internship> myInternships) {
-        this.myInternships = myInternships;
+    public void setEmployers(List<String> theEmployers) {
+        myEmployers = theEmployers;
     }
 
-    public String getMyName() {
+    public void setInternships(List<String> theInternships) {
+        myInternships = theInternships;
+    }
+
+    public void setID(int theID) {
+        myID = theID;
+    }
+
+    public int getID(){ return myID; }
+
+    public String getName() {
         return myName;
     }
 
-    public int getMyStudentID() {
+    public int getStudentID() {
         return myStudentID;
     }
 
-    public String getMyGraduationYear() {
+    public String getGraduationYear() {
         return myGraduationYear;
     }
 
-    public String getMySchoolProgram() {
+    public String getSchoolProgram() {
         return mySchoolProgram;
     }
 
-    public Double getMyGPA() {
+    public Double getGPA() {
         return myGPA;
     }
 
-    public String getMyEmail() {
+    public String getEmail() {
         return myEmail;
     }
 
-    public boolean isMyTransferStatus() {
+    public boolean isTransferStatus() {
         return myTransferStatus;
     }
 
-    public boolean isMyResponseFlag() {
+    public boolean isResponseFlag() {
         return myResponseFlag;
     }
 
-    public List<Employer> getMyEmployers() {
+    public List<String> getEmployers() {
         return myEmployers;
     }
 
-    public List<Internship> getMyInternships() {
+    public List<String> getInternships() {
         return myInternships;
     }
+
+    public String getEmployersAsString() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : myEmployers) {
+            sb.append(s);
+            sb.append(",");
+        }
+        return sb.toString();
+    }
+
+    public String getInternshipsAsString() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : myInternships) {
+            sb.append(s);
+            sb.append(",");
+        }
+        return sb.toString();
+    }
+
+
 }

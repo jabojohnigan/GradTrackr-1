@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by noxor on 11/28/16.
+ *
+ * Probably don't need these classes.
  */
 public class Employer {
     String myName;

@@ -40,11 +40,13 @@ public class GUI {
 	 */
 	private void initialize() {
 		frmGradTrackr = new JFrame();
-		frmGradTrackr.setTitle("GRAD TRACKR");
+		frmGradTrackr.setTitle("Grad Trackr");
+		//TODO: make bigger plz
 		frmGradTrackr.setBounds(100, 100, 550, 354);
 		frmGradTrackr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmGradTrackr.getContentPane().setLayout(null);
-		
+
+		//TODO: link the buttons the controller
 		JButton btnRequestInfo = new JButton("Request Info");
 		btnRequestInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
