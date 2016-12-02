@@ -9,6 +9,7 @@ import java.util.Properties;
  * This class has the information to connect to the cssgate server.
  * to customize for your own project.
  * @author mabraham
+ * @author concox
  *
  */
 
