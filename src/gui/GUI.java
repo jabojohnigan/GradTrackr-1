@@ -1,11 +1,16 @@
 package gui;
 
+import graduate.Graduate;
+import graduate.GraduateCollection;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JTextPane;
 
 public class GUI {
@@ -16,6 +21,8 @@ public class GUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -50,7 +57,6 @@ public class GUI {
 		JButton btnRequestInfo = new JButton("Request Info");
 		btnRequestInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 			}
 		});
 		btnRequestInfo.setBounds(48, 109, 117, 29);

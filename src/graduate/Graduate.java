@@ -10,7 +10,7 @@ public class Graduate {
 
     int myID;
     String myName;
-    int myStudentID;
+    int myGraduateID;
     String myGraduationYear;
     String mySchoolProgram;
     Double myGPA;
@@ -20,15 +20,15 @@ public class Graduate {
     List<String> myEmployers;
     List<String> myInternships;
 
-    public Graduate(String theName, int theStudentID) {
+    public Graduate(String theName, int theGraduateID) {
         myName = theName;
-        myStudentID = theStudentID;
+        myGraduateID = theGraduateID;
     }
 
-    public Graduate(String theName, int theStudentID, String theGraduationYear, Double theGPA,
+    public Graduate(String theName, int theGraduateID, String theGraduationYear, Double theGPA,
                     String theEmail, boolean theTransferStatus, boolean theResponsiveness,
                     List<String> theEmployers, List<String> theInternships) {
-        this(theName, theStudentID);
+        this(theName, theGraduateID);
         myGraduationYear = theGraduationYear;
         myGPA = theGPA;
         myEmail = theEmail;
@@ -51,8 +51,8 @@ public class Graduate {
         myName = theName;
     }
 
-    public void setStudentID(int theStudentID) {
-        myStudentID = theStudentID;
+    public void setGraduateID(int theGraduateID) {
+        myGraduateID = theGraduateID;
     }
 
     public void setGraduationYear(String theGraduationYear) {
@@ -97,8 +97,8 @@ public class Graduate {
         return myName;
     }
 
-    public int getStudentID() {
-        return myStudentID;
+    public int getGraduateID() {
+        return myGraduateID;
     }
 
     public String getGraduationYear() {

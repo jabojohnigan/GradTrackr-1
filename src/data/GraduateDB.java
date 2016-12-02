@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Interactis with sql database - specfically handles queries about graduates
+ * Interacts with sql database - specfically handles queries about graduates
  * @author concox
  *
  */
@@ -25,7 +25,7 @@ public class GraduateDB {
      * @return Returns "Added Graduate Successfully" or "Error adding graduate: " with the sql exception.
      */
     public String addGraduate(Graduate graduate) {
-        String sql = "insert into Graduate(studentName, id, graduationYear, program , gpa, email, " +
+        String sql = "insert into Graduate(graduateName, id, graduationYear, program , gpa, email, " +
                 "transferStatus, responsive, employers, internships) " +
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ? , ?); ";
 
@@ -41,7 +41,7 @@ public class GraduateDB {
         try {
             preparedStatement = mConnection.prepareStatement(sql);
             preparedStatement.setString(1, graduate.getName());
-            preparedStatement.setInt(2, graduate.getStudentID());
+            preparedStatement.setInt(2, graduate.getGraduateID());
             preparedStatement.setString(3, graduate.getGraduationYear());
             preparedStatement.setString(4, graduate.getSchoolProgram());
             preparedStatement.setDouble(5, graduate.getGPA());
@@ -76,10 +76,10 @@ public class GraduateDB {
             stmt = mConnection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                int id = rs.getInt("graduateId");
-                String name = rs.getString("name");
-                int studentID = rs.getInt("studentID");
-                String graduationYear = rs.getString("graduationyYear");
+                int id = rs.getInt("id");
+                String name = rs.getString("graduateName");
+                int graduateID = rs.getInt("graduateId");
+                String graduationYear = rs.getString("graduationYear");
                 String program = rs.getString("program");
                 Double gpa = rs.getDouble("gpa");
                 String email = rs.getString("email");
@@ -87,7 +87,7 @@ public class GraduateDB {
                 boolean responsive = rs.getBoolean("responsive");
                 String employers = rs.getString("employers");
                 String internships = rs.getString("internships");
-                Graduate graduate = new Graduate(name, studentID, graduationYear, gpa, email,
+                Graduate graduate = new Graduate(name, graduateID, graduationYear, gpa, email,
                         transferStatus, responsive, Graduate.stringToList(employers),
                         Graduate.stringToList(internships));
                 graduate.setID(id);
@@ -110,7 +110,7 @@ public class GraduateDB {
      * @return list of graduates that match.
      * @throws SQLException
      */
-    public List<Graduate> getGraduates(String name, int studentID) throws SQLException {
+    public List<Graduate> getGraduates(String name, int graduateID) throws SQLException {
         List<Graduate> filterList = new ArrayList<Graduate>();
         if (mGraduateList == null) {
             getGraduates();
@@ -118,7 +118,7 @@ public class GraduateDB {
         name = name.toLowerCase();
         for (Graduate graduate : mGraduateList) {
             if (graduate.getName().toLowerCase().contains(name) &&
-                    graduate.getStudentID() == studentID) {
+                    graduate.getGraduateID() == graduateID) {
                 filterList.add(graduate);
             }
         }
@@ -147,9 +147,9 @@ public class GraduateDB {
 
     /**
      * Retrieve the graduate with the given id or null if not found.
-     * @param id
-     * @return graduate
-     * @throws SQLException
+     * @param id the graduate's database id
+     * @return graduate the graduate with the the corresponding id
+     * @throws SQLException if the database connection is null
      */
     public Graduate getGraduate(String id) throws SQLException {
         if (mConnection == null) {
@@ -163,8 +163,8 @@ public class GraduateDB {
             ResultSet rs = stmt.executeQuery(query);
             if (rs.next()) {
                 String name = rs.getString("name");
-                int studentID = rs.getInt("studentID");
-                String graduationYear = rs.getString("graduationyYear");
+                int graduateID = rs.getInt("graduateID");
+                String graduationYear = rs.getString("graduationYear");
                 String program = rs.getString("program");
                 Double gpa = rs.getDouble("gpa");
                 String email = rs.getString("email");
@@ -172,7 +172,7 @@ public class GraduateDB {
                 boolean responsive = rs.getBoolean("responsive");
                 String employers = rs.getString("employers");
                 String internships = rs.getString("internships");
-                return new Graduate(name, studentID, graduationYear, gpa, email,
+                return new Graduate(name, graduateID, graduationYear, gpa, email,
                         transferStatus, responsive, Graduate.stringToList(employers),
                         Graduate.stringToList(internships));
             }
