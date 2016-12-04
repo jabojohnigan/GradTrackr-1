@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Interacts with sql database - specfically handles queries about graduates
- * @author concox
+ * Interacts with sql database - specifically handles queries about graduates.
  *
+ * @author concox
  */
 public class GraduateDB {
     private Connection mConnection;
@@ -21,13 +21,13 @@ public class GraduateDB {
 
     /**
      * Adds a new graduate to the Graduate table.
-     * @param graduate
+     * @param graduate to be added to the table.
      * @return Returns "Added Graduate Successfully" or "Error adding graduate: " with the sql exception.
      */
     public String addGraduate(Graduate graduate) {
-        String sql = "insert into Graduate(graduateName, id, graduationYear, program , gpa, email, " +
+        String sql = "insert into Graduate(graduateName, graduateId, graduationYear, gpa, email, " +
                 "transferStatus, responsive, employers, internships) " +
-                "values (?, ?, ?, ?, ?, ?, ?, ?, ? , ?); ";
+                "values (?, ?, ?, ?, ?, ?, ?, ? , ?); ";
 
         if (mConnection == null) {
             try {
@@ -37,19 +37,18 @@ public class GraduateDB {
             }
         }
 
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         try {
             preparedStatement = mConnection.prepareStatement(sql);
             preparedStatement.setString(1, graduate.getName());
             preparedStatement.setInt(2, graduate.getGraduateID());
             preparedStatement.setString(3, graduate.getGraduationYear());
-            preparedStatement.setString(4, graduate.getSchoolProgram());
-            preparedStatement.setDouble(5, graduate.getGPA());
-            preparedStatement.setString(6, graduate.getEmail());
-            preparedStatement.setBoolean(7, graduate.isTransferStatus());
-            preparedStatement.setBoolean(8, graduate.isResponseFlag());
-            preparedStatement.setString(9, graduate.getEmployersAsString());
-            preparedStatement.setString(10, graduate.getInternshipsAsString());
+            preparedStatement.setDouble(4, graduate.getGPA());
+            preparedStatement.setString(5, graduate.getEmail());
+            preparedStatement.setBoolean(6, graduate.isTransferStatus());
+            preparedStatement.setBoolean(7, graduate.isResponseFlag());
+            preparedStatement.setString(8, graduate.getEmployersAsString());
+            preparedStatement.setString(9, graduate.getInternshipsAsString());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,8 +60,8 @@ public class GraduateDB {
     /**
      * Retrieves all graduates from the Graduate table.
      *
-     * @return list of graduates
-     * @throws SQLException
+     * @return list of graduates from the database
+     * @throws SQLException if a connection to the database cannot be made
      */
     public List<Graduate> getGraduates() throws SQLException {
         if (mConnection == null) {
@@ -71,7 +70,7 @@ public class GraduateDB {
         Statement stmt = null;
         String query = "select * " + "from Graduate ";
 
-        mGraduateList = new ArrayList<Graduate>();
+        mGraduateList = new ArrayList<>();
         try {
             stmt = mConnection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -80,7 +79,6 @@ public class GraduateDB {
                 String name = rs.getString("graduateName");
                 int graduateID = rs.getInt("graduateId");
                 String graduationYear = rs.getString("graduationYear");
-                String program = rs.getString("program");
                 Double gpa = rs.getDouble("gpa");
                 String email = rs.getString("email");
                 boolean transferStatus = rs.getBoolean("transferStatus");
@@ -110,14 +108,14 @@ public class GraduateDB {
      * @return list of graduates that match.
      * @throws SQLException
      */
-    public List<Graduate> getGraduates(String name, int graduateID) throws SQLException {
-        List<Graduate> filterList = new ArrayList<Graduate>();
+    public List<Graduate> getGraduates(String graduateName, int graduateID) throws SQLException {
+        List<Graduate> filterList = new ArrayList<>();
         if (mGraduateList == null) {
             getGraduates();
         }
-        name = name.toLowerCase();
+        graduateName = graduateName.toLowerCase();
         for (Graduate graduate : mGraduateList) {
-            if (graduate.getName().toLowerCase().contains(name) &&
+            if (graduate.getName().toLowerCase().contains(graduateName) &&
                     graduate.getGraduateID() == graduateID) {
                 filterList.add(graduate);
             }
@@ -129,10 +127,10 @@ public class GraduateDB {
      * Returns all graduates that contain the search keyword.
      * @param name either first or last name
      * @return list of graduates that match.
-     * @throws SQLException
+     * @throws SQLException if the database connection is null
      */
     public List<Graduate> getGraduates(String name) throws SQLException {
-        List<Graduate> filterList = new ArrayList<Graduate>();
+        List<Graduate> filterList = new ArrayList<>();
         if (mGraduateList == null) {
             getGraduates();
         }
@@ -156,16 +154,15 @@ public class GraduateDB {
             mConnection = DataConnection.getConnection();
         }
         Statement stmt = null;
-        String query = "select * " + "from Graduate where name = '" + id + "';";
+        String query = "select * " + "from Graduate where id = " + id + ";";
 
         try {
             stmt = mConnection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             if (rs.next()) {
-                String name = rs.getString("name");
+                String name = rs.getString("graduateName");
                 int graduateID = rs.getInt("graduateID");
                 String graduationYear = rs.getString("graduationYear");
-                String program = rs.getString("program");
                 Double gpa = rs.getDouble("gpa");
                 String email = rs.getString("email");
                 boolean transferStatus = rs.getBoolean("transferStatus");
