@@ -34,7 +34,6 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
         setVisible(true);
         setSize(DEFAULT_P_MIN);
         BuildPanel();
-
     }
 
     public void BuildPanel(){

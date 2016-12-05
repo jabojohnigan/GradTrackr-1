@@ -151,7 +151,6 @@ public class GUI extends JFrame {
 			repaint();
 			revalidate();
 
-
 			}
 		});
 		add(btnPanel, BorderLayout.NORTH);
