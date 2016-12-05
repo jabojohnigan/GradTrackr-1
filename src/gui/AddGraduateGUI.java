@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.JPanel;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 /**
@@ -14,10 +15,31 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
      */
     private JLabel[] lblAddGrad = new JLabel[6];
 
-    private JPanel pnlAddGrad;
+    /**
+     * PANEL SIZE
+     */
+    private static final Dimension DEFAULT_P_MIN = new Dimension(300, 600);
 
+    /**
+     * labels Name
+     */
+    private String[] lblNames = {"Enter Name", "Enter Graduate Year", "Enter GPA",
+                                "Enter Email", "Transfer Student", "Responsive"};
 
+    private JPanel pnlAddGrad, pnlAddJobs;
 
+    private JButton addEmps, addInts, addGrad;
+    public AddGraduateGUI(){
+        setLayout(new BorderLayout());
+        setVisible(true);
+        setSize(DEFAULT_P_MIN);
+        BuildPanel();
+
+    }
+
+    public void BuildPanel(){
+
+    }
     public void actionPerformed(ActionEvent someAction){
 
     }

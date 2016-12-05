@@ -6,6 +6,7 @@ import graduate.GraduateCollection;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import gui.AddGraduateGUI;
 import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -29,12 +30,13 @@ public class GUI extends JFrame {
 	/**Buttn Pnl Dimension. */
 	private static final Dimension DEFAULT_P_MIN = new Dimension(300, 600);
 
-//	private JFrame frameOfGradTrackr;
 
 	private String[] GradColumnNames = {"id", "graduateName", "graduateId", "graduationYear",
 			"gpa", "email", "transferStatus", "responsive", "employers", "internships"};
 
 	private JPanel btnPanel, tblPanel;
+
+	private AddGraduateGUI addGradPanel;
 
 
 	private JTable table;
@@ -108,8 +110,8 @@ public class GUI extends JFrame {
 				mData[i][5] = mList.get(i).getEmail();
 				mData[i][6] = mList.get(i).isTransferStatus();
 				mData[i][7] = mList.get(i).isResponseFlag();
-				mData[i][8] = mList.get(i).getEmployersAsString();
-				mData[i][9] = mList.get(i).getInternshipsAsString();
+				mData[i][8] = mList.get(i).getEmployers();
+				mData[i][9] = mList.get(i).getInternships();
 
 			}
 		}
@@ -128,11 +130,11 @@ public class GUI extends JFrame {
 		btnUpdateGradInfo = new JButton("Update Grad Info");
 		btnRunReport = new JButton("Run Report");
 		btnRequestInfo = new JButton("Request Info");
-//		btnRequestInfo.addActionListener(new ActionListener() {
-////			public void actionPerformed(ActionEvent e) {
-////
-////			}
-////		});
+		btnRequestInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		//btnRequestInfo.setBounds(109, 48, 117, 29);
 		btnPanel.add(btnRequestInfo);
 		//btnRunReport.setBounds(48, 68, 117, 29);
@@ -143,7 +145,13 @@ public class GUI extends JFrame {
 		btnPanel.add( btnAddGrad);
 		btnAddGrad.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-			//TODO: Finishing AddGraduateGUI...
+			addGradPanel = new AddGraduateGUI();
+			remove(tblPanel);
+			add(addGradPanel, BorderLayout.CENTER);
+			repaint();
+			revalidate();
+
+
 			}
 		});
 		add(btnPanel, BorderLayout.NORTH);
@@ -160,8 +168,19 @@ public class GUI extends JFrame {
 
 	}
 
+	/**
+	 * An InnerClass to hold the implementation of the btnBack
+	 * @author Jabo Johnigan
+	 */
+	class btnBackListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent someAction){
+
+		}
 
 
 
+
+	}
 
 }
