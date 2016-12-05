@@ -26,9 +26,9 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 
     private JPanel pnlAddGrad, pnlAddJobs;
     
-    private JButton btnAddGrad;
 
     private JButton addEmps, addInts, addGrad;
+    
     public AddGraduateGUI(){
         setLayout(new BorderLayout());
         setVisible(true);
@@ -38,14 +38,14 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 
     public void setUpPanel(){
     	pnlAddGrad = new JPanel();
-    	pnlAddGrad.setLayout(new GridLayout(5, 0));
+    	pnlAddGrad.setLayout(new GridLayout(6, 0));
     	add(pnlAddGrad, BorderLayout.CENTER);
     	
     	String[] lblNames = {"Enter Name:", "Enter Graduate Year:", "Enter GPA:",
                 "Enter Email:", "Transfer Student:", "Responsive:"};
 		for (int i = 0; i < lblNames.length; i++) {
 			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(1, 0));
+			panel.setLayout(new GridLayout(2, 0));
 			txfLabel[i] = new JLabel(lblNames[i]);
 			txfField[i] = new JTextField(25);
 			panel.add(txfLabel[i]);
@@ -54,9 +54,9 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		}
 		
 		JPanel panel = new JPanel();
-		btnAddGrad = new JButton("Add");
-		btnAddGrad.addActionListener(this);
-		panel.add(btnAddGrad);
+		addGrad = new JButton("Add Grad");
+		addGrad.addActionListener(this);
+		panel.add(addGrad);
 		pnlAddGrad.add(panel);
     }
     public void actionPerformed(ActionEvent someAction){
