@@ -8,6 +8,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.*;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
@@ -23,13 +24,28 @@ import javax.swing.JTextPane;
 public class GUI extends JFrame {
 
 	/**A DeFAULT PANEL SIZE FOR JPANELS. */
-	private static final Dimension DEFAULT_F_MIN = new Dimension(175, 352);
+	private static final Dimension DEFAULT_F_MIN = new Dimension(900, 500);
 
-	private JFrame frameOfGradTrackr = this;
+	/**Buttn Pnl Dimension. */
+	private static final Dimension DEFAULT_P_MIN = new Dimension(300, 600);
 
-	private JPanel btnPanel;
+//	private JFrame frameOfGradTrackr;
 
-	private JButton btnAddGrad, btnRunReport, btnListGrad;
+	private String[] GradColumnNames = {"id", "graduateName", "graduateId", "graduationYear",
+			"gpa", "email", "transferStatus", "responsive", "employers", "internships"};
+
+	private JPanel btnPanel, tblPanel;
+
+
+	private JTable table;
+
+	private JScrollPane scrollPane;
+
+	private List<Graduate> mList;
+
+	private Object[][] mData;
+
+	private JButton btnAddGrad, btnRunReport, btnRequestInfo , btnUpdateGradInfo;
 
 	/**
 	 * Launch the application.
@@ -41,7 +57,7 @@ public class GUI extends JFrame {
 			public void run() {
 				try {
 					GUI guiRUNOBJ = new GUI();
-					guiRUNOBJ.frameOfGradTrackr.setVisible(true);
+					guiRUNOBJ.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,47 +69,99 @@ public class GUI extends JFrame {
 	 * Create the application.
 	 */
 	public GUI() {
-		frameOfGradTrackr = new JFrame();
-		frameOfGradTrackr.setTitle("Grad Trackr");
-		frameOfGradTrackr.setBounds(100, 100, 800, 700);
-		frameOfGradTrackr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frameOfGradTrackr.getContentPane().setLayout(null);
+	    //SetUp MAIN GUI MENU
 
+		setTitle("Grad Trackr");
+		setMinimumSize(DEFAULT_F_MIN);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+		setLocationRelativeTo(null);
+		mList = getData(null);
 		initialize();
+
 	}
+
+
+	/*
+	 * Returns the data (2d) to use in this list as well as in other panels.
+	 *
+	 * @param searchKey
+	 *
+	 * @return
+	 */
+	private List<Graduate> getData(String searchKey) {
+		if (searchKey != null) {
+			mList = GraduateCollection.search(searchKey);
+		} else {
+			mList = GraduateCollection.getGraduates();
+		}
+		mData = new Object[mList.size()][GradColumnNames.length];
+
+		if (mList != null) {
+			mData = new Object[mList.size()][GradColumnNames.length];
+			for (int i = 0; i < mList.size(); i++) {
+				mData[i][0] = mList.get(i).getID();
+				mData[i][1] = mList.get(i).getName();
+				mData[i][2] = mList.get(i).getGraduateID();
+				mData[i][3] = mList.get(i).getGraduationYear();
+				mData[i][4] = mList.get(i).getGPA();
+				mData[i][5] = mList.get(i).getEmail();
+				mData[i][6] = mList.get(i).isTransferStatus();
+				mData[i][7] = mList.get(i).isResponseFlag();
+				mData[i][8] = mList.get(i).getEmployersAsString();
+				mData[i][9] = mList.get(i).getInternshipsAsString();
+
+			}
+		}
+		return mList;
+	}
+
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		//TODO: make bigger plz
-
-		//TODO: link the buttons the controller
-		JButton btnRequestInfo = new JButton("Request Info");
-		btnRequestInfo.addActionListener(new ActionListener() {
+		//create button panel
+		btnPanel = new JPanel ();
+		btnPanel.setVisible(true);
+		btnAddGrad = new JButton("Add/Remove Grad");
+		btnUpdateGradInfo = new JButton("Update Grad Info");
+		btnRunReport = new JButton("Run Report");
+		btnRequestInfo = new JButton("Request Info");
+//		btnRequestInfo.addActionListener(new ActionListener() {
+////			public void actionPerformed(ActionEvent e) {
+////
+////			}
+////		});
+		//btnRequestInfo.setBounds(109, 48, 117, 29);
+		btnPanel.add(btnRequestInfo);
+		//btnRunReport.setBounds(48, 68, 117, 29);
+		btnPanel.add( btnRunReport);
+		//btnUpdateGradInfo.setBounds(48, 150, 150, 29);
+		btnPanel.add(btnUpdateGradInfo);
+		//btnAddGrad.setBounds(48, 191, 150, 29);
+		btnPanel.add( btnAddGrad);
+		btnAddGrad.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+			//TODO: Finishing AddGraduateGUI...
 			}
 		});
-		btnRequestInfo.setBounds(48, 109, 117, 29);
-		frameOfGradTrackr.getContentPane().add(btnRequestInfo);
-		
-		btnRunReport = new JButton("Run Report");
-		btnRunReport.setBounds(48, 68, 117, 29);
-		frameOfGradTrackr.getContentPane().add(btnRunReport);
-		
-		JButton btnUpdateGradInfo = new JButton("Update Grad Info");
-		btnUpdateGradInfo.setBounds(48, 150, 150, 29);
-		frameOfGradTrackr.getContentPane().add(btnUpdateGradInfo);
-		
-		btnAddGrad = new JButton("Add/Remove Grad");
-		btnAddGrad.setBounds(48, 191, 150, 29);
-		frameOfGradTrackr.getContentPane().add(btnAddGrad);
-		
-		JTextPane txtpnIdkWhatShould = new JTextPane();
-		txtpnIdkWhatShould.setText("IDK WHAT SHOULD GO HERE");
-		txtpnIdkWhatShould.setBounds(226, 68, 265, 202);
-		frameOfGradTrackr.getContentPane().add(txtpnIdkWhatShould);
+		add(btnPanel, BorderLayout.NORTH);
+
+		//TODO: link the buttons the controller
+
+
+		// Add Table Panel
+		tblPanel = new JPanel();
+		table = new JTable( mData, GradColumnNames);
+		scrollPane = new JScrollPane(table);
+		tblPanel.add(scrollPane);
+		add(tblPanel, BorderLayout.CENTER);
+
 	}
+
+
+
 
 
 }

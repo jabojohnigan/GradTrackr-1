@@ -79,6 +79,9 @@ public class GraduateDB {
                 String name = rs.getString("graduateName");
                 int graduateID = rs.getInt("graduateId");
                 String graduationYear = rs.getString("graduationYear");
+
+
+              //  String program = rs.getString("program");
                 Double gpa = rs.getDouble("gpa");
                 String email = rs.getString("email");
                 boolean transferStatus = rs.getBoolean("transferStatus");
