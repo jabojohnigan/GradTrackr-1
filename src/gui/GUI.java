@@ -23,36 +23,71 @@ import java.util.List;
 import javax.swing.JTextPane;
 import javax.swing.table.TableColumn;
 
+/**
+ * This class holds the GUI of the project and acts as a Main Menu for the system. All other
+ * parts of the program should be called from this GUI in order to instantiate their page/panel.
+ * @author Jabo Johnigan
+ * @version Dec 4, 2016
+ *
+ */
 public class GUI extends JFrame {
 
-	/**A DeFAULT PANEL SIZE FOR JPANELS. */
-	private static final Dimension DEFAULT_F_MIN = new Dimension(900, 500);
+	/**Size of Table */
+	private static final Dimension DEFAULT_T_MIN = new Dimension(900, 500);
 
 	/**Buttn Pnl Dimension. */
-	private static final Dimension DEFAULT_P_MIN = new Dimension(300, 600);
+	private static final Dimension DEFAULT_F_MIN = new Dimension(1000, 700);
 
-
+    /**
+     * Name of Columns for table.
+     */
 	private String[] GradColumnNames = {"id", "graduateName", "graduateId", "graduationYear",
 			"gpa", "email", "transferStatus", "responsive", "employers", "internships"};
 
+    /**
+     * Panels for main menu.
+     */
 	private JPanel btnPanel, tblPanel;
 
-	private String gradInts;
+    /**
+     * Add/Grad Panel To Replace the Table
+     */
+    private AddGraduateGUI addGradPanel;
 
-	private AddGraduateGUI addGradPanel;
+    /**
+     * The JComboBoxs for the Employer list and Internship List
+     */
+    private JComboBox cmbEmps, cmbInts;
 
-	private JComboBox cmbEmps, cmbInts;
-
+    /**
+     * Table for displaying Grad Students
+     */
 	private JTable table;
 
+    /**
+     * A scroll pane obj so we can scroll on the table of grads.
+     */
 	private JScrollPane scrollPane;
 
+    /**
+     * List used to access the graduated information
+     */
 	private List<Graduate> mList;
+
+    /**
+     * List of Employer and Internship as Strings
+     */
 	private List<String> myEmps, myInts;
 
+    /**
+     * Data For 2D table.
+     */
 	private Object[][] mData;
 
-	private JButton btnAddGrad, btnRunReport, btnRequestInfo , btnUpdateGradInfo;
+    /**
+     * Btns to control the different functions of the system.
+     */
+	private JButton btnAddGrad, btnRunReport, btnListGrads , btnUpdateGradInfo;
 
 	/**
 	 * Launch the application.
@@ -73,7 +108,8 @@ public class GUI extends JFrame {
 	}
 
 	/**
-	 * Create the application.
+	 * The GUI constructor that instantiates a Frame for the application. The class is a
+     * JFrame.
 	 */
 	public GUI() {
 	    //SetUp MAIN GUI MENU
@@ -84,7 +120,8 @@ public class GUI extends JFrame {
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(null);
 		mList = getData(null);
-		initialize();
+		MainMenu();
+		addTablePanel();
 
 	}
 
@@ -106,16 +143,21 @@ public class GUI extends JFrame {
 		if (mList != null) {
 			mData = new Object[mList.size()][GradColumnNames.length];
 			for (int i = 0; i < mList.size(); i++) {
-				myEmps =  mList.get(i).getEmployers();
+				myEmps = mList.get(i).getEmployers();
 				myInts = mList.get(i).getInternships();
 				cmbInts = new JComboBox();
+
 				cmbEmps = new JComboBox();
+				cmbInts.setEditable(false);
+				cmbEmps.setEditable(false);
 				for (int x = 0; x< myEmps.size(); x++) {
 					System.out.println(1);
-					cmbEmps.addItem(myEmps.get(x));
+					cmbEmps.addItem(myEmps.get(x).toString());
+					System.out.println(myEmps.get(x).toString());
 				}
 				for (int y = 0; y < myInts.size(); y++){
-					cmbInts.addItem(myInts.get(y));
+					cmbInts.addItem(myInts.get(y).toString());
+                    System.out.println(myInts.get(y));
 				}
 
 
@@ -130,13 +172,8 @@ public class GUI extends JFrame {
 				mData[i][6] = mList.get(i).isTransferStatus();
 				mData[i][7] = mList.get(i).isResponseFlag();
 
-//				mData[i][8] = cmbEmps;
-//				mData[i][9] = cmbInts;
-
-
-
-//				mData[i][8] = mList.get(i).getEmployers();
-//				mData[i][9] = mList.get(i).getInternships();
+				//mData[i][8] = myEmps;
+				//mData[i][9] = myInts;
 
 			}
 		}
@@ -145,22 +182,20 @@ public class GUI extends JFrame {
 
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialize the contents of the frame with the main menu window.
 	 */
-	private void initialize() {
+	private void MainMenu() {
+
 		//create button panel
+
 		btnPanel = new JPanel ();
 		btnPanel.setVisible(true);
 		btnAddGrad = new JButton("Add/Remove Grad");
 		btnUpdateGradInfo = new JButton("Update Grad Info");
 		btnRunReport = new JButton("Run Report");
-		btnRequestInfo = new JButton("Request Info");
-		btnRequestInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-		btnPanel.add(btnRequestInfo);
+		btnListGrads = new JButton("List Grads");
+		btnListGrads.addActionListener(new btnViewGrads());
+		btnPanel.add(btnListGrads);
 		btnPanel.add(btnAddGrad);
 		btnPanel.add( btnRunReport);
 		btnPanel.add(btnUpdateGradInfo);
@@ -179,19 +214,30 @@ public class GUI extends JFrame {
 		//TODO: link the buttons the controller
 
 
-		// Add Table Panel
-		tblPanel = new JPanel();
-		tblPanel.setMinimumSize(DEFAULT_F_MIN);
-		table = new JTable( mData, GradColumnNames);
-		TableColumn empsColumn = table.getColumnModel().getColumn(8);
-		TableColumn intsColumn = table.getColumnModel().getColumn(9);
-		empsColumn.setCellEditor(new DefaultCellEditor(cmbEmps));
-		intsColumn.setCellEditor(new DefaultCellEditor(cmbInts));
-		scrollPane = new JScrollPane(table);
-		tblPanel.add(scrollPane);
-		add(tblPanel, BorderLayout.CENTER);
+
+
 
 	}
+
+    /**
+     * Creates the TablePanel to host the table.
+     */
+	public void addTablePanel(){
+        // Add Table Panel
+        tblPanel = new JPanel();
+        table = new JTable( mData, GradColumnNames);
+        TableColumn empsColumn = table.getColumnModel().getColumn(8);
+        TableColumn intsColumn = table.getColumnModel().getColumn(9);
+        empsColumn.setCellEditor(new DefaultCellEditor(cmbEmps));
+        intsColumn.setCellEditor(new DefaultCellEditor(cmbInts));
+        table.setFillsViewportHeight(true);
+        table.setPreferredScrollableViewportSize(DEFAULT_T_MIN);
+        scrollPane = new JScrollPane(table);
+        tblPanel.add(scrollPane);
+        add(tblPanel, BorderLayout.CENTER);
+
+
+    }
 
 	/**
 	 * An InnerClass to hold the implementation of the btnBack
@@ -207,5 +253,26 @@ public class GUI extends JFrame {
 
 
 	}
+
+	/**
+	 * An InnerClass to hold the implementation of the btnViewGrads
+	 * @author Jabo Johnigan
+	 */
+	class btnViewGrads implements ActionListener {
+
+		public void actionPerformed(ActionEvent someAction){
+			remove(addGradPanel);
+			btnListGrads.setEnabled(false);
+			addTablePanel();
+			repaint();
+			revalidate();
+
+		}
+
+
+
+
+	}
+
 
 }
