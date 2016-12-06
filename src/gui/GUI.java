@@ -14,13 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTextPane;
 import javax.swing.table.TableColumn;
 
 /**
@@ -32,11 +26,16 @@ import javax.swing.table.TableColumn;
  */
 public class GUI extends JFrame implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 499203492615966125L;
+
+	/**A DeFAULT PANEL SIZE FOR JPANELS. */
+	private static final Dimension DEFAULT_F_MIN = new Dimension(900, 500);
 	/**Size of Table */
 	private static final Dimension DEFAULT_T_MIN = new Dimension(900, 500);
 
-	/**Buttn Pnl Dimension. */
-	private static final Dimension DEFAULT_F_MIN = new Dimension(1000, 700);
 
     /**
      * Name of Columns for table.
