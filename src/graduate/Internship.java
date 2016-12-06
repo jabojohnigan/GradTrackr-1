@@ -3,19 +3,31 @@ package graduate;
 import java.util.List;
 
 /**
- * Created by noxor on 11/28/16.
+ * Holds information about the graduates internship
+ * @deprecated
  *
- * Probably don't need these classes
+ * @author concox
  */
+@SuppressWarnings("unesed")
 public class Internship {
-    String myCompany;
-    String myInternshipTitle;
-    List<String> myIntershipQualifications;
-    boolean myIsPaid;
-    String myDateStarted;
-    String myDateEnded;
-    String myIternshipLocation;
+    private String myCompany;
+    private String myInternshipTitle;
+    private List<String> myIntershipQualifications;
+    private boolean myIsPaid;
+    private String myDateStarted;
+    private String myDateEnded;
+    private String myIternshipLocation;
 
+    /**
+     * Creates an internship object
+     * @param theCompany of the internship
+     * @param theTitle of the internship
+     * @param myQualifications of the internship
+     * @param thePaid of the internship
+     * @param theDateStarted of the internship
+     * @param theDateEnded of the internship
+     * @param theLocation of the internship
+     */
     public Internship(String theCompany, String theTitle, List<String> myQualifications, boolean thePaid,
                       String theDateStarted, String theDateEnded, String theLocation) {
         myCompany = theCompany;
@@ -26,6 +38,10 @@ public class Internship {
         myDateEnded = theDateEnded;
         myIternshipLocation = theLocation;
     }
+
+    /**
+     * Setters and getters
+     */
 
     public void setMyCompany(String myCompany) {
         this.myCompany = myCompany;

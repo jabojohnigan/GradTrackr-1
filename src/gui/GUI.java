@@ -29,7 +29,7 @@ import javax.swing.table.TableModel;
 public class GUI extends JFrame implements ActionListener, TableModelListener {
 
 	/**
-	 * 
+	 * Serialization ID, mostly unused.
 	 */
 	private static final long serialVersionUID = 499203492615966125L;
 
@@ -245,7 +245,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
 	/**
 	 * ActionListeners for all the buttons.
-	 * @param e
+	 * @param e Action event from the user
 	 */
     public void actionPerformed(ActionEvent e) {
 	    if (e.getSource() == btnAddGrad){
@@ -276,6 +276,8 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     
 	/**
 	 * Listen to the cell changes on the table.
+	 *
+	 * @param e event when table is changed by the user
 	 */
 	@Override
 	public void tableChanged(TableModelEvent e) {

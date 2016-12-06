@@ -9,8 +9,10 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- * Created by noxor on 12/2/16.
- * @author noxor
+ * The GUI responsible for handling Data report. The core function of the program.
+ * Will return the requested information about a graduate.
+ *
+ * @author concox
  * @author Vlad
  */
 public class DataReportGUI extends JPanel implements ActionListener {
@@ -36,6 +38,9 @@ public class DataReportGUI extends JPanel implements ActionListener {
     private JTextField[] txfField = new JTextField[2];
     private JComboBox cmbCriteria;
 
+    /**
+     * Constructor for the data report GUI.
+     */
     public DataReportGUI() {
         setLayout(new BorderLayout());
 
@@ -75,6 +80,9 @@ public class DataReportGUI extends JPanel implements ActionListener {
 //        return mList;
 //    }
 
+    /**
+     * Handles the creation of components on the GUI.
+     */
     private void createComponents() {
 
         // A button panel at the top for Data Report

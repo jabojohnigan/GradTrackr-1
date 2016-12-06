@@ -3,16 +3,24 @@ package graduate;
 import java.util.List;
 
 /**
- * Created by noxor on 11/28/16.
+ * Holds information about the graduate's current employer
  *
- * Probably don't need these classes.
+ * @author concox
+ * @deprecated
  */
 public class Employer {
-    String myName;
-    List<String> myRequiredSkills;
-    boolean myIsGraduateEmployed;
-    String myDateHired;
+    private String myName;
+    private List<String> myRequiredSkills;
+    private boolean myIsGraduateEmployed;
+    private String myDateHired;
 
+    /**
+     * Creates an Employer object
+     * @param theName of the employer
+     * @param theSkills of the employer
+     * @param theEmployed of the employer
+     * @param theDateHired of he employer
+     */
     public Employer(String theName, List<String> theSkills, boolean theEmployed,
                     String theDateHired) {
         myName = theName;
@@ -20,6 +28,10 @@ public class Employer {
         myIsGraduateEmployed = theEmployed;
         myDateHired = theDateHired;
     }
+
+    /**
+     * Setters and getters
+     */
 
     public void setMyName(String myName) {
         this.myName = myName;

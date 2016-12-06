@@ -9,13 +9,14 @@ import javax.swing.*;
 import graduate.Graduate;
 import graduate.GraduateCollection;
 /**
- * Created by noxor on 12/2/16.
+ * GUI Panel that handles adding graduates to the Database.
+ *
  * @author Jabo Johnigan
- * @versioin 12/2/16
+ * @version 12/2/16
  */
 public class AddGraduateGUI extends JPanel implements ActionListener {
     /**
-	 * 
+	 * Serialization ID, mostly unused.
 	 */
 	private static final long serialVersionUID = -1262967559520618107L;
 
@@ -29,8 +30,6 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
      */
     private static final Dimension DEFAULT_P_MIN = new Dimension(300, 600);
 
-  
-    
 	private JTextField[] txfField = new JTextField[9];
 
     private JPanel pnlAddGrad, pnlRemoveGrad, pnlAddJobs, pnlButtons;
@@ -38,16 +37,22 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     private JButton addViewBtn, removeViewBtn;
 
     private JButton addEmps, addInts, addGrad, removeGrad;
-    
-    public AddGraduateGUI(){
+
+	/**
+	 * Creates the Add Graduate GUI
+	 */
+	public AddGraduateGUI(){
         setLayout(new BorderLayout());
         setVisible(true);
         setSize(DEFAULT_P_MIN);
         setUpButtons();
         setUpPanel();
     }
-    
-    public void setUpButtons() {
+
+	/**
+	 * Creates and places the button for the GUI.
+	 */
+	public void setUpButtons() {
     	pnlButtons = new JPanel();
     	
     	addViewBtn = new JButton("Add a Grad");
@@ -61,7 +66,10 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     	add(pnlButtons, BorderLayout.NORTH);
     }
 
-    public void setUpPanel(){
+	/**
+	 * Set up method to handle the creation of the add graduate panel.
+	 */
+	public void setUpPanel(){
     	pnlAddGrad = new JPanel();
     	pnlAddGrad.setLayout(new GridLayout(10, 2));
     	add(pnlAddGrad, BorderLayout.CENTER);
@@ -110,8 +118,12 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		
 		
     }
-    
-    public void actionPerformed(ActionEvent e){
+
+	/**
+	 * Button handler for the add graduate GUI.
+	 * @param e event that was preformed by the user
+	 */
+	public void actionPerformed(ActionEvent e){
     	if (e.getSource() == addGrad) {
     		if(!txfField[0].getText().equals("") && !txfField[1].getText().equals("") 
     			&& !txfField[2].getText().equals("") && !txfField[3].getText().equals("")) {
