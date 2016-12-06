@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Interacts with sql database - specifically handles queries about graduates.
  *
@@ -125,6 +126,38 @@ public class GraduateDB {
         }
         return filterList;
     }
+    
+    /**
+	 * Modifies the data on an Graduate 
+	 * @param row
+	 * @param columnName
+	 * @param data
+	 * @return Returns a message with success or failure.
+	 */
+	public String updateGraduate(Graduate graduate, String columnName, Object data) {
+		
+		String name = graduate.getName();
+		int id = graduate.getGraduateID();
+		
+		String sql = "update Graduate set `" + columnName
+				+ "` = ?  where name= ? and id = ? ";
+		
+		// For debugging - System.out.println(sql);
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = mConnection.prepareStatement(sql);
+			
+			preparedStatement.setString(1, (String) data); 
+			preparedStatement.setString(2, name); //for name ?
+			preparedStatement.setInt(3, id); // for id = ?
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e);
+			e.printStackTrace();
+			return "Error updating graduate: " + e.getMessage();
+		}
+		return "Updated Graduate Successfully";
+	}
 
     /**
      * Returns all graduates that contain the search keyword.

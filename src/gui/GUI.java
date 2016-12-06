@@ -26,7 +26,7 @@ import javax.swing.table.TableModel;
  * @version Dec 4, 2016
  *
  */
-public class GUI extends JFrame implements ActionListener{
+public class GUI extends JFrame implements ActionListener, TableModelListener {
 
 	/**
 	 * 
@@ -248,27 +248,27 @@ public class GUI extends JFrame implements ActionListener{
 
         }
     }
-/////TABLE MODEL LISTENER
-//	/**
-//	 * Listen to the cell changes on the table.
-//	 */
-//	@Override
-//	public void tableChanged(TableModelEvent e) {
-//		int row = e.getFirstRow();
-//		int column = e.getColumn();
-//		TableModel model = (TableModel) e.getSource();
-//		String columnName = model.getColumnName(column);
-//		Object data = model.getValueAt(row, column);
-//		if (data != null && ((String) data).length() != 0) {
-//			Graduate grad = mList.get(row);
-//			if (!GraduateCollection.update(grad, columnName, data)) {
-//				JOptionPane.showMessageDialog(null, "Update failed");
-//
-//			} else {
-//				JOptionPane.showMessageDialog(null, "Client updated");
-//			}
-//		}
-//
-//	}
+    
+	/**
+	 * Listen to the cell changes on the table.
+	 */
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		int row = e.getFirstRow();
+		int column = e.getColumn();
+		TableModel model = (TableModel) e.getSource();
+		String columnName = model.getColumnName(column);
+		Object data = model.getValueAt(row, column);
+		if (data != null && ((String) data).length() != 0) {
+			Graduate grad = mList.get(row);
+			if (!GraduateCollection.update(grad, columnName, data)) {
+				JOptionPane.showMessageDialog(null, "Update failed");
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Graduate updated");
+			}
+		}
+
+	}
 
 }

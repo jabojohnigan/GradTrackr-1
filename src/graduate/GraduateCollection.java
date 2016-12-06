@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Static class that holds commands for the gui to call. Handles all information regarding graduates.
  *
@@ -48,6 +49,30 @@ public class GraduateCollection {
         return !message.startsWith("Error adding Graduate:");
     }
 
+    /**
+	 * Modify the particular column of the Graduate with the given data.
+	 * 
+	 * @param graduate Graduate to modify
+	 * @param column the field in the table to modify
+	 * @param data the value for the field
+	 * @return true or false
+	 */
+	public static boolean update(Graduate graduate, String column, Object data) {
+		if (mGraduateDB == null) {
+			mGraduateDB = new GraduateDB();
+		}
+		// Don't let the users change name.
+		if (!(column.equals("name"))) {
+			String message = mGraduateDB.updateGraduate(graduate, column, data);
+			if (message.startsWith("Error updating graduate: ")) {
+				return false;
+			} else if (message.startsWith("Updated Graduate Successfully")){
+				return true;
+			}
+		}
+		return false;
+	}
+    
     /**
      * Return a graduate with the given id, null otherwise.
      *

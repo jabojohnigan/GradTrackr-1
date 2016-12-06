@@ -37,7 +37,7 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
  
     private JButton addViewBtn, removeViewBtn;
 
-    private JButton addEmps, addInts, addGrad;
+    private JButton addEmps, addInts, addGrad, removeGrad;
     
     public AddGraduateGUI(){
         setLayout(new BorderLayout());
@@ -63,14 +63,14 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 
     public void setUpPanel(){
     	pnlAddGrad = new JPanel();
-    	pnlAddGrad.setLayout(new GridLayout(10, 0));
+    	pnlAddGrad.setLayout(new GridLayout(10, 2));
     	add(pnlAddGrad, BorderLayout.CENTER);
     	
     	String[] lblNames = {"Enter Name:", "Enter Student ID:", "Enter Graduate Year:", "Enter GPA:",
                 "Enter Email:", "Transfer Student:", "Responsive:", "Employers:", "Internships:"};
 		for (int i = 0; i < lblNames.length; i++) {
 			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(2, 0));
+			panel.setLayout(new GridLayout(1, 0));
 			lblAddGrad[i] = new JLabel(lblNames[i]);
 			txfField[i] = new JTextField(25);
 			panel.add(lblAddGrad[i]);
@@ -86,19 +86,28 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		pnlAddGrad.add(panel);
 		
 		
-		pnlRemoveGrad = new JPanel();
+		pnlRemoveGrad = new JPanel(new GridLayout(6, 6));
 		
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new GridLayout(2, 0));
 		JLabel nameLabel = new JLabel("Search name:");
 		JTextField nameField = new JTextField(25);
+		namePanel.add(nameLabel);
+		namePanel.add(nameField);
 		pnlRemoveGrad.add(namePanel);
 		
 		JPanel idPanel = new JPanel();
 		idPanel.setLayout(new GridLayout(2, 0));
 		JLabel idLabel = new JLabel("Search ID:");
 		JTextField idField = new JTextField(25);
+		idPanel.add(idLabel);
+		idPanel.add(idField);
 		pnlRemoveGrad.add(idPanel);
+		
+		removeGrad = new JButton("Remove Grad");
+		removeGrad.addActionListener(this);
+		pnlRemoveGrad.add(removeGrad);
+		
 		
     }
     
