@@ -2,9 +2,12 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import graduate.Graduate;
+import graduate.GraduateCollection;
 /**
  * Created by noxor on 12/2/16.
  * @author Jabo Johnigan
@@ -19,7 +22,7 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 	/**
      * labels for the addGrad panel.
      */
-    private JLabel[] lblAddGrad = new JLabel[8];
+    private JLabel[] lblAddGrad = new JLabel[9];
 
     /**
      * PANEL SIZE
@@ -28,10 +31,12 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 
   
     
-	private JTextField[] txfField = new JTextField[8];
+	private JTextField[] txfField = new JTextField[9];
 
     private JPanel pnlAddGrad, pnlAddJobs;
-    
+  
+	
+
 
     private JButton addEmps, addInts, addGrad;
     
@@ -44,10 +49,10 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 
     public void setUpPanel(){
     	pnlAddGrad = new JPanel();
-    	pnlAddGrad.setLayout(new GridLayout(9, 0));
+    	pnlAddGrad.setLayout(new GridLayout(10, 0));
     	add(pnlAddGrad, BorderLayout.CENTER);
     	
-    	String[] lblNames = {"Enter Name:", "Enter Graduate Year:", "Enter GPA:",
+    	String[] lblNames = {"Enter Name:", "Enter Student ID:", "Enter Graduate Year:", "Enter GPA:",
                 "Enter Email:", "Transfer Student:", "Responsive:", "Employers:", "Internships:"};
 		for (int i = 0; i < lblNames.length; i++) {
 			JPanel panel = new JPanel();
@@ -86,28 +91,48 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 			return;
 		}
 		
-		String yearStr = txfField[1].getText();
-		if (yearStr.length() == 0) {
-			JOptionPane.showMessageDialog(null, "Enter a grad year");
+		String studentIdStr = txfField[1].getText();
+		int studentId;
+		if (studentIdStr.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Enter a grad student ID");
 			txfField[1].setFocusable(true);
 			return;
 		} else {
-			int yearInt = Integer.parseInt(yearStr);
+			studentId = Integer.parseInt(studentIdStr);
 		}
 		
-		double gpa = Double.parseDouble(txfField[2].getText());	
-		String email = txfField[3].getText(); 
-		String transfer = txfField[4].getText();
-		String responsive = txfField[5].getText();
+		String yearStr = txfField[2].getText();
+		if (yearStr.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Enter a grad year");
+			txfField[2].setFocusable(true);
+			return;
+		} else {
+		}
 		
-		
-		Graduate graduate;
+		double gpa = Double.parseDouble(txfField[3].getText());	
+		String email = txfField[4].getText(); 
+		String transfer = txfField[5].getText().toLowerCase();
+		String responsive = txfField[6].getText().toLowerCase();
+		String[] internships = txfField[8].getText().split(",");
+		String[] employers = txfField[7].getText().split(",");
+		ArrayList<String> employersList = new ArrayList<String>();
+		for (int i = 0; i < employers.length; i++) {
+			employersList.add(employers[i].trim());
+		}
+		ArrayList<String> internshipsList = new ArrayList<String>();
+		for (int i = 0; i < internships.length; i++) {
+			internshipsList.add(internships[i].trim());
+		}
 
 		
-		String message = "Client add failed";
-//		if (GraduateCollection.add(graduate)) {
-//			message = "Client added";
-//		}
+		Graduate graduate = new Graduate(name, studentId, yearStr, gpa, email, transfer.startsWith("y"), 
+										responsive.startsWith("y"), employersList, internshipsList);
+
+		
+		String message = "Graduate add failed";
+		if (GraduateCollection.add(graduate)) {
+			message = "Graduate added";
+		}
 		JOptionPane.showMessageDialog(null, message);
 
 		// Clear all text fields.
