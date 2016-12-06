@@ -30,7 +30,7 @@ import javax.swing.table.TableColumn;
  * @version Dec 4, 2016
  *
  */
-public class GUI extends JFrame {
+public class GUI extends JFrame implements ActionListener{
 
 	/**Size of Table */
 	private static final Dimension DEFAULT_T_MIN = new Dimension(900, 500);
@@ -77,7 +77,7 @@ public class GUI extends JFrame {
     /**
      * List of Employer and Internship as Strings
      */
-	private List<String> myEmps, myInts;
+	private List<String> listEmps, listInts;
 
     /**
      * Data For 2D table.
@@ -87,7 +87,7 @@ public class GUI extends JFrame {
     /**
      * Btns to control the different functions of the system.
      */
-	private JButton btnAddGrad, btnRunReport, btnListGrads , btnUpdateGradInfo;
+	private JButton btnAddGrad, btnRunReport, btnListGrads , btnUpdateGradInfo, btnBack;
 
 	/**
 	 * Launch the application.
@@ -143,26 +143,25 @@ public class GUI extends JFrame {
 		if (mList != null) {
 			mData = new Object[mList.size()][GradColumnNames.length];
 			for (int i = 0; i < mList.size(); i++) {
-				myEmps = mList.get(i).getEmployers();
-				myInts = mList.get(i).getInternships();
+				listEmps = mList.get(i).getEmployers();
+				listInts = mList.get(i).getInternships();
 				cmbInts = new JComboBox();
 
 				cmbEmps = new JComboBox();
 				cmbInts.setEditable(false);
 				cmbEmps.setEditable(false);
-				for (int x = 0; x< myEmps.size(); x++) {
+				for (int x = 0; x< listEmps.size(); x++) {
 					System.out.println(1);
-					cmbEmps.addItem(myEmps.get(x).toString());
-					System.out.println(myEmps.get(x).toString());
+					cmbEmps.addItem(listEmps.get(x).toString());
+					System.out.println(listEmps.get(x).toString());
 				}
-				for (int y = 0; y < myInts.size(); y++){
-					cmbInts.addItem(myInts.get(y).toString());
-                    System.out.println(myInts.get(y));
+				for (int y = 0; y < listInts.size(); y++){
+					cmbInts.addItem(listInts.get(y).toString());
+                    System.out.println(listInts.get(y));
 				}
+                cmbEmps.setSelectedIndex(-1);
+                cmbInts.setSelectedIndex(-1);
 
-
-
-				myInts = mList.get(i).getInternships();
 				mData[i][0] = mList.get(i).getID();
 				mData[i][1] = mList.get(i).getName();
 				mData[i][2] = mList.get(i).getGraduateID();
@@ -171,9 +170,8 @@ public class GUI extends JFrame {
 				mData[i][5] = mList.get(i).getEmail();
 				mData[i][6] = mList.get(i).isTransferStatus();
 				mData[i][7] = mList.get(i).isResponseFlag();
-
-				//mData[i][8] = myEmps;
-				//mData[i][9] = myInts;
+                mData[i][8] = listEmps;
+				mData[i][9] = listInts;
 
 			}
 		}
@@ -187,31 +185,22 @@ public class GUI extends JFrame {
 	private void MainMenu() {
 
 		//create button panel
-
+        tblPanel = new JPanel();
 		btnPanel = new JPanel ();
 		btnPanel.setVisible(true);
 		btnAddGrad = new JButton("Add/Remove Grad");
 		btnUpdateGradInfo = new JButton("Update Grad Info");
 		btnRunReport = new JButton("Run Report");
 		btnListGrads = new JButton("List Grads");
-		btnListGrads.addActionListener(new btnViewGrads());
+		btnListGrads.addActionListener(this);
 		btnPanel.add(btnListGrads);
 		btnPanel.add(btnAddGrad);
 		btnPanel.add( btnRunReport);
 		btnPanel.add(btnUpdateGradInfo);
-		btnAddGrad.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-			addGradPanel = new AddGraduateGUI();
-			remove(tblPanel);
-			add(addGradPanel, BorderLayout.CENTER);
-			repaint();
-			revalidate();
-
-			}
-		});
+		btnAddGrad.addActionListener(this);
 		add(btnPanel, BorderLayout.NORTH);
 
-		//TODO: link the buttons the controller
+
 
 
 
@@ -224,7 +213,7 @@ public class GUI extends JFrame {
      */
 	public void addTablePanel(){
         // Add Table Panel
-        tblPanel = new JPanel();
+
         table = new JTable( mData, GradColumnNames);
         TableColumn empsColumn = table.getColumnModel().getColumn(8);
         TableColumn intsColumn = table.getColumnModel().getColumn(9);
@@ -239,40 +228,27 @@ public class GUI extends JFrame {
 
     }
 
-	/**
-	 * An InnerClass to hold the implementation of the btnBack
-	 * @author Jabo Johnigan
-	 */
-	class btnBackListener implements ActionListener {
 
-		public void actionPerformed(ActionEvent someAction){
+    public void actionPerformed(ActionEvent e) {
+	    if (e.getSource() == btnAddGrad){
+            addGradPanel = new AddGraduateGUI();
+            remove(tblPanel);
+            add(addGradPanel, BorderLayout.CENTER);
+            repaint();
+            revalidate();
+        } else if (e.getSource() == btnListGrads){
+            remove(addGradPanel);
+            //btnListGrads.setEnabled(false);
+            add(tblPanel, BorderLayout.CENTER);
+            repaint();
+            revalidate();
+        } else if (e.getSource() == btnRunReport){
 
-		}
+        } else if (e.getSource() == btnUpdateGradInfo){
 
+        } else if (e.getSource() == btnBack){
 
-
-
-	}
-
-	/**
-	 * An InnerClass to hold the implementation of the btnViewGrads
-	 * @author Jabo Johnigan
-	 */
-	class btnViewGrads implements ActionListener {
-
-		public void actionPerformed(ActionEvent someAction){
-			remove(addGradPanel);
-			btnListGrads.setEnabled(false);
-			addTablePanel();
-			repaint();
-			revalidate();
-
-		}
-
-
-
-
-	}
-
+        }
+    }
 
 }
