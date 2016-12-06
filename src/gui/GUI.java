@@ -4,9 +4,9 @@ import graduate.Graduate;
 import graduate.GraduateCollection;
 
 import java.awt.EventQueue;
+import javax.swing.event.TableModelEvent;
 
 import javax.swing.JFrame;
-import gui.AddGraduateGUI;
 import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -15,7 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.util.List;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 /**
  * This class holds the GUI of the project and acts as a Main Menu for the system. All other
@@ -32,7 +34,7 @@ public class GUI extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 499203492615966125L;
 
 	/**A DeFAULT PANEL SIZE FOR JPANELS. */
-	private static final Dimension DEFAULT_F_MIN = new Dimension(900, 500);
+	private static final Dimension DEFAULT_F_MIN = new Dimension(1000, 600);
 	/**Size of Table */
 	private static final Dimension DEFAULT_T_MIN = new Dimension(900, 500);
 
@@ -46,7 +48,7 @@ public class GUI extends JFrame implements ActionListener{
     /**
      * Panels for main menu.
      */
-	private JPanel btnPanel, tblPanel;
+	private JPanel btnPanel, tblPanel, contentPanel;
 
     /**
      * Add/Grad Panel To Replace the Table
@@ -112,7 +114,6 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	public GUI() {
 	    //SetUp MAIN GUI MENU
-
 		setTitle("Grad Trackr");
 		setMinimumSize(DEFAULT_F_MIN);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,6 +122,7 @@ public class GUI extends JFrame implements ActionListener{
 		mList = getData(null);
 		MainMenu();
 		addTablePanel();
+		pack();
 
 	}
 
@@ -189,21 +191,16 @@ public class GUI extends JFrame implements ActionListener{
 		btnPanel.setVisible(true);
 		btnAddGrad = new JButton("Add/Remove Grad");
 		btnUpdateGradInfo = new JButton("Update Grad Info");
-		btnRunReport = new JButton("Run Report");
+		btnRunReport = new JButton("Run Report on Grad");
 		btnListGrads = new JButton("List Grads");
 		btnListGrads.addActionListener(this);
+		btnAddGrad.addActionListener(this);
 		btnPanel.add(btnListGrads);
 		btnPanel.add(btnAddGrad);
 		btnPanel.add( btnRunReport);
 		btnPanel.add(btnUpdateGradInfo);
-		btnAddGrad.addActionListener(this);
+
 		add(btnPanel, BorderLayout.NORTH);
-
-
-
-
-
-
 
 	}
 
@@ -212,8 +209,8 @@ public class GUI extends JFrame implements ActionListener{
      */
 	public void addTablePanel(){
         // Add Table Panel
-
         table = new JTable( mData, GradColumnNames);
+
         TableColumn empsColumn = table.getColumnModel().getColumn(8);
         TableColumn intsColumn = table.getColumnModel().getColumn(9);
         empsColumn.setCellEditor(new DefaultCellEditor(cmbEmps));
@@ -224,10 +221,12 @@ public class GUI extends JFrame implements ActionListener{
         tblPanel.add(scrollPane);
         add(tblPanel, BorderLayout.CENTER);
 
-
     }
 
-
+	/**
+	 * ActionListeners for all the buttons.
+	 * @param e
+	 */
     public void actionPerformed(ActionEvent e) {
 	    if (e.getSource() == btnAddGrad){
             addGradPanel = new AddGraduateGUI();
@@ -249,5 +248,27 @@ public class GUI extends JFrame implements ActionListener{
 
         }
     }
+/////TABLE MODEL LISTENER
+//	/**
+//	 * Listen to the cell changes on the table.
+//	 */
+//	@Override
+//	public void tableChanged(TableModelEvent e) {
+//		int row = e.getFirstRow();
+//		int column = e.getColumn();
+//		TableModel model = (TableModel) e.getSource();
+//		String columnName = model.getColumnName(column);
+//		Object data = model.getValueAt(row, column);
+//		if (data != null && ((String) data).length() != 0) {
+//			Graduate grad = mList.get(row);
+//			if (!GraduateCollection.update(grad, columnName, data)) {
+//				JOptionPane.showMessageDialog(null, "Update failed");
+//
+//			} else {
+//				JOptionPane.showMessageDialog(null, "Client updated");
+//			}
+//		}
+//
+//	}
 
 }
