@@ -31,7 +31,7 @@ public class DataReport {
     }
 
     public void searchByGraduateID(String graduateID ){
-        myReportQuery.append("where graduateID = '");
+        myReportQuery.append("where graduateId = '");
         myReportQuery.append(graduateID);
         myReportQuery.append("'");
     }

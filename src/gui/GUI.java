@@ -55,6 +55,11 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
      */
     private AddGraduateGUI addGradPanel;
 
+	/**
+	 * Data Report Panel to replace Table and Add Grad Panel
+	 */
+	private DataReportGUI dataReportPanel;
+
     /**
      * The JComboBoxs for the Employer list and Internship List
      */
@@ -193,6 +198,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		btnUpdateGradInfo = new JButton("Update Grad Info");
 		btnRunReport = new JButton("Run Report on Grad");
 		btnListGrads = new JButton("List Grads");
+		btnRunReport.addActionListener(this);
 		btnListGrads.addActionListener(this);
 		btnAddGrad.addActionListener(this);
 		btnPanel.add(btnListGrads);
@@ -231,17 +237,24 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 	    if (e.getSource() == btnAddGrad){
             addGradPanel = new AddGraduateGUI();
             remove(tblPanel);
+			//remove(dataReportPanel);
             add(addGradPanel, BorderLayout.CENTER);
             repaint();
             revalidate();
         } else if (e.getSource() == btnListGrads){
             remove(addGradPanel);
+			//remove(dataReportPanel);
             //btnListGrads.setEnabled(false);
             add(tblPanel, BorderLayout.CENTER);
             repaint();
             revalidate();
         } else if (e.getSource() == btnRunReport){
-
+			dataReportPanel = new DataReportGUI();
+			remove(tblPanel);
+        	//remove(addGradPanel);
+        	add(dataReportPanel, BorderLayout.CENTER);
+			repaint();
+			revalidate();
         } else if (e.getSource() == btnUpdateGradInfo){
 
         } else if (e.getSource() == btnBack){
