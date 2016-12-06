@@ -118,21 +118,43 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
      * JFrame.
 	 */
 	public GUI() {
-	    //SetUp MAIN GUI MENU
-		setTitle("Grad Trackr");
-		setMinimumSize(DEFAULT_F_MIN);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		setLocationRelativeTo(null);
+	    contentPanel = new JPanel();
+	    contentPanel.setVisible(true);
+	    contentPanel.setLayout(new BorderLayout());
+		cmbInts = new JComboBox();
+		cmbEmps = new JComboBox();
+		cmbInts.setEditable(false);
+		cmbEmps.setEditable(false);
+		cmbEmps.setSelectedIndex(-1);
+		cmbInts.setSelectedIndex(-1);
+		add(contentPanel);
 		mList = getData(null);
 		MainMenu();
-		addTablePanel();
-		pack();
+
+		//pack();
 
 	}
 
 
-	/*
+	/**
+	 * Initialize the contents of the frame with the main menu window.
+	 */
+	private void MainMenu() {
+		//SetUp MAIN GUI MENU
+		setTitle("Grad Trackr");
+		setMinimumSize(DEFAULT_F_MIN);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		setLocationRelativeTo(null);
+		addBtnPanel();
+		addTablePanel();
+
+
+
+	}
+
+	/**
 	 * Returns the data (2d) to use in this list as well as in other panels.
 	 *
 	 * @param searchKey
@@ -151,22 +173,15 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 			for (int i = 0; i < mList.size(); i++) {
 				listEmps = mList.get(i).getEmployers();
 				listInts = mList.get(i).getInternships();
-				cmbInts = new JComboBox();
 
-				cmbEmps = new JComboBox();
-				cmbInts.setEditable(false);
-				cmbEmps.setEditable(false);
 				for (int x = 0; x< listEmps.size(); x++) {
-					System.out.println(1);
 					cmbEmps.addItem(listEmps.get(x).toString());
-					System.out.println(listEmps.get(x).toString());
+
 				}
 				for (int y = 0; y < listInts.size(); y++){
 					cmbInts.addItem(listInts.get(y).toString());
-                    System.out.println(listInts.get(y));
 				}
-                cmbEmps.setSelectedIndex(-1);
-                cmbInts.setSelectedIndex(-1);
+
 
 				mData[i][0] = mList.get(i).getID();
 				mData[i][1] = mList.get(i).getName();
@@ -184,14 +199,12 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		return mList;
 	}
 
-
 	/**
-	 * Initialize the contents of the frame with the main menu window.
+	 * Creates the ButtonPanel
 	 */
-	private void MainMenu() {
-
+	public void addBtnPanel(){
 		//create button panel
-        tblPanel = new JPanel();
+		tblPanel = new JPanel();
 		btnPanel = new JPanel ();
 		btnPanel.setVisible(true);
 		btnAddGrad = new JButton("Add/Remove Grad");
@@ -208,6 +221,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
 		add(btnPanel, BorderLayout.NORTH);
 
+
 	}
 
     /**
@@ -216,16 +230,16 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 	public void addTablePanel(){
         // Add Table Panel
         table = new JTable( mData, GradColumnNames);
-
+		table.getModel().addTableModelListener(this);
         TableColumn empsColumn = table.getColumnModel().getColumn(8);
         TableColumn intsColumn = table.getColumnModel().getColumn(9);
         empsColumn.setCellEditor(new DefaultCellEditor(cmbEmps));
         intsColumn.setCellEditor(new DefaultCellEditor(cmbInts));
-        table.setFillsViewportHeight(true);
+        //table.setFillsViewportHeight(true);
         table.setPreferredScrollableViewportSize(DEFAULT_T_MIN);
         scrollPane = new JScrollPane(table);
         tblPanel.add(scrollPane);
-        add(tblPanel, BorderLayout.CENTER);
+        contentPanel.add(tblPanel, BorderLayout.CENTER);
 
     }
 
@@ -236,23 +250,21 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     public void actionPerformed(ActionEvent e) {
 	    if (e.getSource() == btnAddGrad){
             addGradPanel = new AddGraduateGUI();
-            remove(tblPanel);
-			//remove(dataReportPanel);
-            add(addGradPanel, BorderLayout.CENTER);
+            contentPanel.removeAll();
+
+            contentPanel.add(addGradPanel, BorderLayout.CENTER);
             repaint();
             revalidate();
         } else if (e.getSource() == btnListGrads){
-            remove(addGradPanel);
-			//remove(dataReportPanel);
-            //btnListGrads.setEnabled(false);
-            add(tblPanel, BorderLayout.CENTER);
+            contentPanel.removeAll();
+            contentPanel.add(tblPanel, BorderLayout.CENTER);
             repaint();
             revalidate();
         } else if (e.getSource() == btnRunReport){
 			dataReportPanel = new DataReportGUI();
-			remove(tblPanel);
-        	//remove(addGradPanel);
-        	add(dataReportPanel, BorderLayout.CENTER);
+			contentPanel.removeAll();
+
+        	contentPanel.add(dataReportPanel, BorderLayout.CENTER);
 			repaint();
 			revalidate();
         } else if (e.getSource() == btnUpdateGradInfo){

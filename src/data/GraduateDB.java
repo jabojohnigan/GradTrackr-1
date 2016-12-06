@@ -129,7 +129,7 @@ public class GraduateDB {
     
     /**
 	 * Modifies the data on an Graduate 
-	 * @param row
+	 * @param graduate
 	 * @param columnName
 	 * @param data
 	 * @return Returns a message with success or failure.
