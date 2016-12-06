@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextPane;
+import javax.swing.table.TableColumn;
 
 public class GUI extends JFrame {
 
@@ -36,14 +37,18 @@ public class GUI extends JFrame {
 
 	private JPanel btnPanel, tblPanel;
 
+	private String gradInts;
+
 	private AddGraduateGUI addGradPanel;
 
+	private JComboBox cmbEmps, cmbInts;
 
 	private JTable table;
 
 	private JScrollPane scrollPane;
 
 	private List<Graduate> mList;
+	private List<String> myEmps, myInts;
 
 	private Object[][] mData;
 
@@ -97,11 +102,25 @@ public class GUI extends JFrame {
 		} else {
 			mList = GraduateCollection.getGraduates();
 		}
-		mData = new Object[mList.size()][GradColumnNames.length];
 
 		if (mList != null) {
 			mData = new Object[mList.size()][GradColumnNames.length];
 			for (int i = 0; i < mList.size(); i++) {
+				myEmps =  mList.get(i).getEmployers();
+				myInts = mList.get(i).getInternships();
+				cmbInts = new JComboBox();
+				cmbEmps = new JComboBox();
+				for (int x = 0; x< myEmps.size(); x++) {
+					System.out.println(1);
+					cmbEmps.addItem(myEmps.get(x));
+				}
+				for (int y = 0; y < myInts.size(); y++){
+					cmbInts.addItem(myInts.get(y));
+				}
+
+
+
+				myInts = mList.get(i).getInternships();
 				mData[i][0] = mList.get(i).getID();
 				mData[i][1] = mList.get(i).getName();
 				mData[i][2] = mList.get(i).getGraduateID();
@@ -110,8 +129,14 @@ public class GUI extends JFrame {
 				mData[i][5] = mList.get(i).getEmail();
 				mData[i][6] = mList.get(i).isTransferStatus();
 				mData[i][7] = mList.get(i).isResponseFlag();
-				mData[i][8] = mList.get(i).getEmployers();
-				mData[i][9] = mList.get(i).getInternships();
+
+//				mData[i][8] = cmbEmps;
+//				mData[i][9] = cmbInts;
+
+
+
+//				mData[i][8] = mList.get(i).getEmployers();
+//				mData[i][9] = mList.get(i).getInternships();
 
 			}
 		}
@@ -135,14 +160,10 @@ public class GUI extends JFrame {
 
 			}
 		});
-		//btnRequestInfo.setBounds(109, 48, 117, 29);
 		btnPanel.add(btnRequestInfo);
-		//btnRunReport.setBounds(48, 68, 117, 29);
+		btnPanel.add(btnAddGrad);
 		btnPanel.add( btnRunReport);
-		//btnUpdateGradInfo.setBounds(48, 150, 150, 29);
 		btnPanel.add(btnUpdateGradInfo);
-		//btnAddGrad.setBounds(48, 191, 150, 29);
-		btnPanel.add( btnAddGrad);
 		btnAddGrad.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 			addGradPanel = new AddGraduateGUI();
@@ -160,7 +181,12 @@ public class GUI extends JFrame {
 
 		// Add Table Panel
 		tblPanel = new JPanel();
+		tblPanel.setMinimumSize(DEFAULT_F_MIN);
 		table = new JTable( mData, GradColumnNames);
+		TableColumn empsColumn = table.getColumnModel().getColumn(8);
+		TableColumn intsColumn = table.getColumnModel().getColumn(9);
+		empsColumn.setCellEditor(new DefaultCellEditor(cmbEmps));
+		intsColumn.setCellEditor(new DefaultCellEditor(cmbInts));
 		scrollPane = new JScrollPane(table);
 		tblPanel.add(scrollPane);
 		add(tblPanel, BorderLayout.CENTER);
