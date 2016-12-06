@@ -33,10 +33,9 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     
 	private JTextField[] txfField = new JTextField[9];
 
-    private JPanel pnlAddGrad, pnlAddJobs;
-  
-	
-
+    private JPanel pnlAddGrad, pnlRemoveGrad, pnlAddJobs, pnlButtons;
+ 
+    private JButton addViewBtn, removeViewBtn;
 
     private JButton addEmps, addInts, addGrad;
     
@@ -44,7 +43,22 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
         setLayout(new BorderLayout());
         setVisible(true);
         setSize(DEFAULT_P_MIN);
+        setUpButtons();
         setUpPanel();
+    }
+    
+    public void setUpButtons() {
+    	pnlButtons = new JPanel();
+    	
+    	addViewBtn = new JButton("Add a Grad");
+    	addViewBtn.addActionListener(this);
+    	pnlButtons.add(addViewBtn);
+    	
+    	removeViewBtn = new JButton("Remove a Grad");
+    	removeViewBtn.addActionListener(this);
+    	pnlButtons.add(removeViewBtn);
+    	
+    	add(pnlButtons, BorderLayout.NORTH);
     }
 
     public void setUpPanel(){
@@ -68,7 +82,24 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		addGrad = new JButton("Add Grad");
 		addGrad.addActionListener(this);
 		panel.add(addGrad);
+		pnlAddGrad.setLayout(new GridLayout(3, 0));
 		pnlAddGrad.add(panel);
+		
+		
+		pnlRemoveGrad = new JPanel();
+		
+		JPanel namePanel = new JPanel();
+		namePanel.setLayout(new GridLayout(2, 0));
+		JLabel nameLabel = new JLabel("Search name:");
+		JTextField nameField = new JTextField(25);
+		pnlRemoveGrad.add(namePanel);
+		
+		JPanel idPanel = new JPanel();
+		idPanel.setLayout(new GridLayout(2, 0));
+		JLabel idLabel = new JLabel("Search ID:");
+		JTextField idField = new JTextField(25);
+		pnlRemoveGrad.add(idPanel);
+		
     }
     
     public void actionPerformed(ActionEvent e){
@@ -77,6 +108,16 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     			&& !txfField[2].getText().equals("") && !txfField[3].getText().equals("")) {
 				performAddGrad();
 			}
+    	} else if (e.getSource() == addViewBtn) {
+    		remove(pnlRemoveGrad);
+    		add(pnlAddGrad, BorderLayout.CENTER);
+    		repaint();
+    		revalidate();
+    	} else if (e.getSource() == removeViewBtn) {
+    		remove(pnlAddGrad);	
+    		add(pnlRemoveGrad, BorderLayout.CENTER);
+    		repaint();
+    		revalidate();
     	}
     }
     
@@ -113,12 +154,18 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		String email = txfField[4].getText(); 
 		String transfer = txfField[5].getText().toLowerCase();
 		String responsive = txfField[6].getText().toLowerCase();
-		String[] internships = txfField[8].getText().split(",");
+		
+		
+		// make array of all employers entered (comma separated), and make into ArrayList
 		String[] employers = txfField[7].getText().split(",");
 		ArrayList<String> employersList = new ArrayList<String>();
 		for (int i = 0; i < employers.length; i++) {
 			employersList.add(employers[i].trim());
 		}
+		
+		
+		// make array of all internships entered (comma separated), and make into ArrayList
+		String[] internships = txfField[8].getText().split(",");
 		ArrayList<String> internshipsList = new ArrayList<String>();
 		for (int i = 0; i < internships.length; i++) {
 			internshipsList.add(internships[i].trim());
