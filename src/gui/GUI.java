@@ -137,7 +137,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		setTitle("Grad Trackr");
 		setMinimumSize(DEFAULT_F_MIN);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mList = getData(null);
+
 		setLocationRelativeTo(null);
 		addBtnPanel();
 		addTablePanel();
@@ -216,7 +216,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
      */
 	public void addTablePanel(){
 
-
+		mList = getData(null);
 //        table = new JTable(new GradTableModel());
         table = new JTable(mData, GradColumnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
