@@ -3,21 +3,17 @@ package gui;
 import graduate.Graduate;
 import graduate.GraduateCollection;
 
-import java.awt.EventQueue;
+import java.awt.*;
 import javax.swing.event.TableModelEvent;
-
+import javax.swing.table.*;
 import javax.swing.JFrame;
 import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
 import java.util.List;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 
 /**
  * This class holds the GUI of the project and acts as a Main Menu for the system. All other
@@ -42,7 +38,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     /**
      * Name of Columns for table.
      */
-	private String[] GradColumnNames = {"id", "graduateName", "graduateId", "graduationYear",
+	private String[] GradColumnNames = {"graduateName", "graduateId", "graduationYear",
 			"gpa", "email", "transferStatus", "responsive", "employers", "internships"};
 
     /**
@@ -88,7 +84,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     /**
      * Data For 2D table.
      */
-	private Object[][] mData;
+	public Object[][] mData;
 
     /**
      * Btns to control the different functions of the system.
@@ -126,8 +122,9 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		cmbEmps = new JComboBox();
 		cmbInts.setEditable(false);
 		cmbEmps.setEditable(false);
-		cmbEmps.setSelectedIndex(-1);
-		cmbInts.setSelectedIndex(-1);
+
+		//cmbEmps.setSelectedIndex(-1);
+		//cmbInts.setSelectedIndex(-1);
 		add(contentPanel);
 		mList = getData(null);
 		MainMenu();
@@ -183,16 +180,16 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 				}
 
 
-				mData[i][0] = mList.get(i).getID();
-				mData[i][1] = mList.get(i).getName();
-				mData[i][2] = mList.get(i).getGraduateID();
-				mData[i][3] = mList.get(i).getGraduationYear();
-				mData[i][4] = mList.get(i).getGPA();
-				mData[i][5] = mList.get(i).getEmail();
-				mData[i][6] = mList.get(i).isTransferStatus();
-				mData[i][7] = mList.get(i).isResponseFlag();
-                mData[i][8] = listEmps;
-				mData[i][9] = listInts;
+
+				mData[i][0] = mList.get(i).getName();
+				mData[i][1] = mList.get(i).getGraduateID();
+				mData[i][2] = mList.get(i).getGraduationYear();
+				mData[i][3] = mList.get(i).getGPA();
+				mData[i][4] = mList.get(i).getEmail();
+				mData[i][5] = mList.get(i).isTransferStatus();
+				mData[i][6] = mList.get(i).isResponseFlag();
+                //mData[i][7] = listEmps;
+				//mData[i][8] = listInts;
 
 			}
 		}
@@ -229,12 +226,12 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
      */
 	public void addTablePanel(){
         // Add Table Panel
-        table = new JTable( mData, GradColumnNames);
+        table = new JTable(new GradTableModel());
 		table.getModel().addTableModelListener(this);
-        TableColumn empsColumn = table.getColumnModel().getColumn(8);
-        TableColumn intsColumn = table.getColumnModel().getColumn(9);
-        empsColumn.setCellEditor(new DefaultCellEditor(cmbEmps));
-        intsColumn.setCellEditor(new DefaultCellEditor(cmbInts));
+	///	TableColumn trans = newe
+       	 setUpJobColumn(table, table.getColumnModel().getColumn(7),
+				table.getColumnModel().getColumn(8));
+		table.getColumnClass(7);
         //table.setFillsViewportHeight(true);
         table.setPreferredScrollableViewportSize(DEFAULT_T_MIN);
         scrollPane = new JScrollPane(table);
@@ -242,6 +239,65 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
         contentPanel.add(tblPanel, BorderLayout.CENTER);
 
     }
+
+	public void setUpJobColumn(JTable table,
+								 TableColumn Emps, TableColumn Ints ) {
+		//Set up the editor for the sport cells.
+
+		Emps.setCellEditor(new DefaultCellEditor(cmbEmps));
+		Ints.setCellEditor(new DefaultCellEditor(cmbInts));
+
+		//Set up tool tips for the sport cells.
+		DefaultTableCellRenderer renderer =
+				new DefaultTableCellRenderer();
+		DefaultTableCellRenderer renderer1 =
+				new DefaultTableCellRenderer();
+		renderer.setToolTipText("Click for employers option");
+		Emps.setCellRenderer(renderer);
+		renderer1.setToolTipText("Click for internships");
+		Ints.setCellRenderer(renderer1);
+	}
+
+//	/*
+//    * This method picks good column sizes.
+//    * If all column heads are wider than the column's cells'
+//    * contents, then you can just use column.sizeWidthToFit().
+//    */
+//	private void initColumnSizes(JTable table) {
+//		Table model = (MyTableModel)table.getModel();
+//		TableColumn column = null;
+//		Component comp = null;
+//		int headerWidth = 0;
+//		int cellWidth = 0;
+//		Object[] longValues = model.longValues;
+//		TableCellRenderer headerRenderer =
+//				table.getTableHeader().getDefaultRenderer();
+//
+//		for (int i = 0; i < 5; i++) {
+//			column = table.getColumnModel().getColumn(i);
+//
+//			comp = headerRenderer.getTableCellRendererComponent(
+//					null, column.getHeaderValue(),
+//					false, false, 0, 0);
+//			headerWidth = comp.getPreferredSize().width;
+//
+//			comp = table.getDefaultRenderer(model.getColumnClass(i)).
+//					getTableCellRendererComponent(
+//							table, longValues[i],
+//							false, false, 0, i);
+//			cellWidth = comp.getPreferredSize().width;
+//
+//			if (true) {
+//				System.out.println("Initializing width of column "
+//						+ i + ". "
+//						+ "headerWidth = " + headerWidth
+//						+ "; cellWidth = " + cellWidth);
+//			}
+//
+//			column.setPreferredWidth(Math.max(headerWidth, cellWidth));
+//		}
+//	}
+
 
 	/**
 	 * ActionListeners for all the buttons.
@@ -298,4 +354,80 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
 	}
 
-}
+	class GradTableModel extends AbstractTableModel {
+		/**
+		 * Name of Columns for table.
+		 */
+		private String[] GradColumnNames = {"graduateName", "graduateId", "graduationYear",
+				"gpa", "email", "transferStatus", "responsive", "employers", "internships"};
+
+		private Object[][] data = mData;
+
+		public int getColumnCount() {
+			return GradColumnNames.length;
+		}
+
+		public int getRowCount() {
+			return data.length;
+		}
+
+		public String getColumnName(int col) {
+			return GradColumnNames[col];
+		}
+
+		public Object getValueAt(int row, int col) {
+			return data[row][col];
+		}
+
+		/*
+         * JTable uses this method to determine the default renderer/
+         * editor for each cell.  If we didn't implement this method,
+         * then the last column would contain text ("true"/"false"),
+         * rather than a check box.
+         */
+		public Class getColumnClass(int c) {
+			Class clazz = String.class;
+			switch (c) {
+				case 1:
+					clazz = Integer.class;
+					break;
+				case 2:
+					clazz = Integer.class;
+					break;
+				case 3:
+					clazz = Double.class;
+					break;
+				case 5:
+					clazz = Boolean.class;
+					break;
+				case 6:
+					clazz = Boolean.class;
+					break;
+				case 7:
+					clazz = List.class;
+					break;
+				case 8:
+					clazz = List.class;
+					break;
+
+
+			}
+			return clazz;
+		}
+
+		/*
+         * Don't need to implement this method unless your table's
+         * editable.
+         */
+		public boolean isCellEditable(int row, int col) {
+			//Note that the data/cell address is constant,
+			//no matter where the cell appears onscreen.
+			if (col == 6 && col == 7) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+	}
+	}
