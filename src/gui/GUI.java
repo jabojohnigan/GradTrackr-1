@@ -255,6 +255,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
             revalidate();
         } else if (e.getSource() == btnListGrads){
             contentPanel.removeAll();
+            tblPanel.removeAll();
             addTablePanel();
 
             repaint();

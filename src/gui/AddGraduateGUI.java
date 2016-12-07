@@ -29,7 +29,7 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     /**
      * PANEL SIZE
      */
-    private static final Dimension DEFAULT_P_MIN = new Dimension(300, 600);
+    private static final Dimension DEFAULT_P_MIN = new Dimension(300, 300);
 
 	private JTextField[] txfField = new JTextField[9];
 	
@@ -81,19 +81,20 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
                 "Enter Email:", "Transfer Student:", "Responsive:", "Employers:", "Internships:"};
 		for (int i = 0; i < lblNames.length; i++) {
 			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(1, 0));
+			panel.setLayout(new FlowLayout());
 			lblAddGrad[i] = new JLabel(lblNames[i]);
-			txfField[i] = new JTextField(25);
+			txfField[i] = new JTextField(15);
 			panel.add(lblAddGrad[i]);
 			panel.add(txfField[i]);
-			pnlAddGrad.add(panel);
+			pnlAddGrad.add(panel, BorderLayout.CENTER);
 		}
+
 		
 		JPanel panel = new JPanel();
 		addGrad = new JButton("Add Grad");
 		addGrad.addActionListener(this);
 		panel.add(addGrad);
-		pnlAddGrad.setLayout(new GridLayout(3, 0));
+
 		pnlAddGrad.add(panel);
 		
 		
