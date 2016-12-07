@@ -158,6 +158,25 @@ public class GraduateDB {
 		}
 		return "Updated Graduate Successfully";
 	}
+	
+	public String removeGraduate(int graduateId) {	
+		String sql = "delete from Graduate where graduateId = ? ";
+		
+		// System.out.println(sql);
+		PreparedStatement preparedStatement = null;
+		try {
+			preparedStatement = mConnection.prepareStatement(sql);
+			
+			preparedStatement.setInt(1, graduateId); 
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e);
+			e.printStackTrace();
+			return "Error removing graduate: " + e.getMessage();
+		}
+		return "Removed Graduate Successfully";
+	}
+	
 
     /**
      * Returns all graduates that contain the search keyword.

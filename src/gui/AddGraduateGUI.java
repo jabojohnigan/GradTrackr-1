@@ -12,6 +12,7 @@ import graduate.GraduateCollection;
  * GUI Panel that handles adding graduates to the Database.
  *
  * @author Jabo Johnigan
+ * @author humzam
  * @version 12/2/16
  */
 public class AddGraduateGUI extends JPanel implements ActionListener {
@@ -31,8 +32,10 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     private static final Dimension DEFAULT_P_MIN = new Dimension(300, 600);
 
 	private JTextField[] txfField = new JTextField[9];
+	
+	private JTextField idField, nameField;
 
-    private JPanel pnlAddGrad, pnlRemoveGrad, pnlAddJobs, pnlButtons;
+    private JPanel pnlAddGrad, pnlRemoveGrad, pnlAddJobs, pnlButtons, removeBtnPanel;
  
     private JButton addViewBtn, removeViewBtn;
 
@@ -71,7 +74,7 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 	 */
 	public void setUpPanel(){
     	pnlAddGrad = new JPanel();
-    	pnlAddGrad.setLayout(new GridLayout(10, 2));
+    	pnlAddGrad.setLayout(new GridLayout(10, 0));
     	add(pnlAddGrad, BorderLayout.CENTER);
     	
     	String[] lblNames = {"Enter Name:", "Enter Student ID:", "Enter Graduate Year:", "Enter GPA:",
@@ -94,12 +97,12 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		pnlAddGrad.add(panel);
 		
 		
-		pnlRemoveGrad = new JPanel(new GridLayout(6, 6));
+		pnlRemoveGrad = new JPanel(new GridLayout(2, 0));
 		
 		JPanel namePanel = new JPanel();
 		namePanel.setLayout(new GridLayout(2, 0));
 		JLabel nameLabel = new JLabel("Search name:");
-		JTextField nameField = new JTextField(25);
+		nameField = new JTextField(25);
 		namePanel.add(nameLabel);
 		namePanel.add(nameField);
 		pnlRemoveGrad.add(namePanel);
@@ -107,14 +110,15 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		JPanel idPanel = new JPanel();
 		idPanel.setLayout(new GridLayout(2, 0));
 		JLabel idLabel = new JLabel("Search ID:");
-		JTextField idField = new JTextField(25);
+		idField = new JTextField(25);
 		idPanel.add(idLabel);
 		idPanel.add(idField);
 		pnlRemoveGrad.add(idPanel);
 		
+		removeBtnPanel = new JPanel();
 		removeGrad = new JButton("Remove Grad");
 		removeGrad.addActionListener(this);
-		pnlRemoveGrad.add(removeGrad);
+		removeBtnPanel.add(removeGrad);
 		
 		
     }
@@ -126,10 +130,14 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e){
     	if (e.getSource() == addGrad) {
     		if(!txfField[0].getText().equals("") && !txfField[1].getText().equals("") 
-    			&& !txfField[2].getText().equals("") && !txfField[3].getText().equals("")) {
+    			&& !txfField[4].getText().equals("")) {
 				performAddGrad();
 			}
-    	} else if (e.getSource() == addViewBtn) {
+    	} else if (e.getSource() == removeGrad) {
+    		if (!idField.getText().equals("") || !nameField.getText().equals("")) {
+    			performRemoveGrad();
+    		}
+    	}	else if (e.getSource() == addViewBtn) {
     		remove(pnlRemoveGrad);
     		add(pnlAddGrad, BorderLayout.CENTER);
     		repaint();
@@ -137,12 +145,28 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     	} else if (e.getSource() == removeViewBtn) {
     		remove(pnlAddGrad);	
     		add(pnlRemoveGrad, BorderLayout.CENTER);
+    		add(removeBtnPanel, BorderLayout.SOUTH);
     		repaint();
     		revalidate();
     	}
     }
     
-    /**
+	/**
+	 * Removes the Grad in the system given a student ID or name. 
+	 */
+    private void performRemoveGrad() {
+    	String id = idField.getText();
+ 	
+    	String message = "Graduate remove failed";
+    	if (id.length() > 0) {
+    		if (GraduateCollection.remove(Integer.parseInt(id))) {
+    			message = "Graduate removed";
+    		}
+    	}
+		JOptionPane.showMessageDialog(null, message);
+	}
+
+	/**
      * Adds a new Grad to the system. Name, Year, GPA, and Email are required.
      */
 	private void performAddGrad() {

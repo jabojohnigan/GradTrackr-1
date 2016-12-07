@@ -72,6 +72,22 @@ public class GraduateCollection {
 		}
 		return false;
 	}
+	
+	public static boolean remove(int graduateId) {
+		if (mGraduateDB == null) { 
+			mGraduateDB = new GraduateDB();
+		}
+		
+		String message = mGraduateDB.removeGraduate(graduateId);
+		boolean status = false;
+		if (message.startsWith("Error removing graduate:")) {
+			status = false;
+		} else if (message.startsWith("Removed Graduate Successfully")) {
+			status = true;
+		}
+		return status;
+	}
+	
     
     /**
      * Return a graduate with the given id, null otherwise.
