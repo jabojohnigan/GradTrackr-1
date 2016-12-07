@@ -36,7 +36,7 @@ public class DataReport {
     }
 
     /**
-     * Seaches and returns the id of the graduate to the string builder.
+     * Searches and returns the id of the graduate to the string builder.
      *
      * Should not be used in the project. Id's are hidden.
      *
@@ -65,9 +65,9 @@ public class DataReport {
      * @param gpa the target GPA
      */
     public void searchByGPA(String gpa) {
-        myReportQuery.append("where gpa = '");
+        myReportQuery.append("where gpa = ");
         myReportQuery.append(gpa);
-        myReportQuery.append("'");
+        myReportQuery.append("");
     }
 
     /**
@@ -86,35 +86,37 @@ public class DataReport {
      *
      * @param transferStatus the target boolean.
      */
-    public void searchByTransferStatus(boolean transferStatus) {
-        myReportQuery.append("where transferStatus = '");
+    public void searchByTransferStatus(int transferStatus) {
+        myReportQuery.append("where transferStatus = ");
         myReportQuery.append(transferStatus);
-        myReportQuery.append("'");
+        //myReportQuery.append("'");
     }
 
     /**
-     * Seaches the graduate DB by their employer.
+     * Searches the graduate DB by their employer.
      *
      * This won't work as intended.
      *
      * @param employer graduates employer's name to be included
      */
     public void searchByEmployer(String employer) {
+        String upperEmp = employer.toUpperCase();
         myReportQuery.append("where upper(employers) like '%");
-        myReportQuery.append(employer.toUpperCase());
+        myReportQuery.append(upperEmp);
         myReportQuery.append("%'");
     }
 
     /**
-     * Searchs the graduate db by their internships
+     * Searches the graduate DB by their internships
      *
      * same issue as employers.
      *
      * @param internship graduates internship's name to be included
      */
     public void searchByInternship(String internship) {
+        String upperIntern = internship.toUpperCase();
         myReportQuery.append("where upper(internships) like '%");
-        myReportQuery.append(internship.toUpperCase());
+        myReportQuery.append(upperIntern);
         myReportQuery.append("%'");
     }
 
