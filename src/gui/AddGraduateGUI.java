@@ -86,7 +86,7 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		pnlAddGrad.setOpaque(true);
 		pnlAddGrad.setBackground(Color.decode(UW_GOLD));
     	String[] lblNames = {"Enter Name:", "Enter Student ID:", "Enter Graduate Year:", "Enter GPA:",
-                "Enter Email:", "Transfer Student:", "Responsive:", "Employers:", "Internships:"};
+                "Enter Email:", "Transfer Student: (y/n)", "Responsive: (y/n)", "Employers: (comma separated list)", "Internships: (comma separated list)"};
 		for (int i = 0; i < lblNames.length; i++) {
 			JPanel panel = new JPanel();
 			panel.setOpaque(true);
@@ -148,6 +148,7 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     		}
     	}	else if (e.getSource() == addViewBtn) {
     		remove(pnlRemoveGrad);
+    		remove(removeBtnPanel);
     		add(pnlAddGrad, BorderLayout.CENTER);
     		repaint();
     		revalidate();
@@ -209,6 +210,17 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		String transfer = txfField[5].getText().toLowerCase();
 		String responsive = txfField[6].getText().toLowerCase();
 		
+		boolean isTransfer = false;
+		if (transfer != null) {
+			transfer = transfer.toLowerCase();
+			isTransfer = transfer.startsWith("y");
+		}
+		
+		boolean isResponsive = false;
+		if (responsive != null) {
+			responsive = responsive.toLowerCase();
+			isResponsive = responsive.startsWith("y");
+		}
 		
 		// make array of all employers entered (comma separated), and make into ArrayList
 		String[] employers = txfField[7].getText().split(",");
@@ -226,8 +238,8 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		}
 
 		
-		Graduate graduate = new Graduate(name, studentId, yearStr, gpa, email, transfer.startsWith("y"), 
-										responsive.startsWith("y"), employersList, internshipsList);
+		Graduate graduate = new Graduate(name, studentId, yearStr, gpa, email, isTransfer, 
+										isResponsive, employersList, internshipsList);
 
 		
 		String message = "Graduate add failed";
