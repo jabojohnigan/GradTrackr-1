@@ -207,8 +207,8 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		
 		double gpa = Double.parseDouble(txfField[3].getText());	
 		String email = txfField[4].getText(); 
-		String transfer = txfField[5].getText().toLowerCase();
-		String responsive = txfField[6].getText().toLowerCase();
+		String transfer = txfField[5].getText();
+		String responsive = txfField[6].getText();
 		
 		boolean isTransfer = false;
 		if (transfer != null) {
