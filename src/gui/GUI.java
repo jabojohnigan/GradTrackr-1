@@ -24,12 +24,6 @@ import javax.swing.event.TableModelListener;
  */
 public class GUI extends JFrame implements ActionListener, TableModelListener {
 
-
-	private JPanel comboPanel1;
-	private JPanel comboPanel2;
-	private JLabel lblEmps = new JLabel("Employers");
-	private JLabel lblInts = new JLabel("Internships");
-
 	/**
 	 * Serialization ID, mostly unused.
 	 */
@@ -123,8 +117,6 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 	public GUI() {
 		setLayout(new BorderLayout());
 	    contentPanel = new JPanel();
-		comboPanel1 = new JPanel(new FlowLayout());
-		comboPanel2 = new JPanel(new FlowLayout());
 	    contentPanel.setVisible(true);
 	    contentPanel.setLayout(new BorderLayout());
 		cmbInts = new JComboBox();
