@@ -24,6 +24,12 @@ import javax.swing.event.TableModelListener;
  */
 public class GUI extends JFrame implements ActionListener, TableModelListener {
 
+
+	private JPanel comboPanel1;
+	private JPanel comboPanel2;
+	private JLabel lblEmps = new JLabel("Employers");
+	private JLabel lblInts = new JLabel("Internships");
+
 	/**
 	 * Serialization ID, mostly unused.
 	 */
@@ -106,6 +112,8 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 	public GUI() {
 		setLayout(new BorderLayout());
 	    contentPanel = new JPanel();
+		comboPanel1 = new JPanel(new FlowLayout());
+		comboPanel2 = new JPanel(new FlowLayout());
 	    contentPanel.setVisible(true);
 	    contentPanel.setLayout(new BorderLayout());
 		cmbInts = new JComboBox();
@@ -162,7 +170,10 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
      * Creates the TablePanel to host the table.
      */
 	public void addTablePanel(){
+
+
         table = new JTable(new GradTableModel());
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setUpJobColumn(table, table.getColumnModel().getColumn(7),
 				table.getColumnModel().getColumn(8));
 		table.getModel().addTableModelListener(this);
@@ -181,20 +192,12 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 	 */
 	public void setUpJobColumn(JTable table,
 								 TableColumn Emps, TableColumn Ints ) {
-		//Set up the editor for the sport cells.
-
+		//Set up editor for the Job cells.
+		cmbEmps.setEditable(false);
+		cmbInts.setEditable(false);
 		Emps.setCellEditor(new DefaultCellEditor(cmbEmps));
 		Ints.setCellEditor(new DefaultCellEditor(cmbInts));
 
-		//Set up tool tips for the sport cells.
-		DefaultTableCellRenderer renderer =
-				new DefaultTableCellRenderer();
-		DefaultTableCellRenderer renderer1 =
-				new DefaultTableCellRenderer();
-		renderer.setToolTipText("Click for employers option");
-		Emps.setCellRenderer(renderer);
-		renderer1.setToolTipText("Click for internships");
-		Ints.setCellRenderer(renderer1);
 	}
 
 	/**
@@ -446,6 +449,19 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 			return mList;
 		}
 
+
+	}
+
+	/**
+	 * A public class for the JComboBox to render correctly.
+	 */
+	public class ComboBoxTableCellRenderer extends JComboBox implements TableCellRenderer {
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			setSelectedItem(value);
+			return this;
+		}
 
 	}
 
