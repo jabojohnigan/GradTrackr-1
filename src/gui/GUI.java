@@ -393,12 +393,12 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 				case 6:
 					clazz = Boolean.class;
 					break;
-				case 7:
-					clazz = List.class;
-					break;
-				case 8:
-					clazz = List.class;
-					break;
+//				case 7:
+//					clazz = List.class;
+//					break;
+//				case 8:
+//					clazz = List.class;
+//					break;
 
 			}
 			return clazz;
@@ -444,6 +444,8 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 					mData[i][4] = mList.get(i).getEmail();
 					mData[i][5] = mList.get(i).isTransferStatus();
 					mData[i][6] = mList.get(i).isResponseFlag();
+					mData[i][7] = listEmps;
+					mData[i][8] = listInts;
 				}
 			}
 			outterList = mList;
