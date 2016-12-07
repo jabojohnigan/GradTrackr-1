@@ -217,7 +217,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 	public void addTablePanel(){
 
 		mList = getData(null);
-//        table = new JTable(new GradTableModel());
+
         table = new JTable(mData, GradColumnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setUpJobColumn(table, table.getColumnModel().getColumn(7),
@@ -300,138 +300,6 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 			}
 		}
 	}
-
-//
-//	/**
-//	 * This Table model inner class acts as the base for constructing a grad table.
-//	 * @author Jabo Johnigan
-//	 * @version 12/6/2016
-//	 */
-//	class GradTableModel extends AbstractTableModel {
-//		/**
-//		 * Name of Columns for table.
-//		 */
-//		private String[] GradColumnNames = {"graduateName", "graduateId", "graduationYear",
-//				"gpa", "email", "transferStatus", "responsive", "employers", "internships"};
-//
-//		/**
-//		 * Values to scale the table headers to in the Column titles.
-//		 */
-//		Object[] longValues = {"Zachary Volkenstavin", new Integer(913024857), "2099", new Double(4.0) ,
-//				"noname@gmail.com", new Boolean(true), new Boolean(false)};
-//		/**
-//		 * List used to access the graduated information
-//		 */
-//		private List<Graduate> mList;
-//
-//		/**
-//		 * List of Employer and Internship as Strings
-//		 */
-//		private List<String> listEmps, listInts;
-//
-//		/**
-//		 * Data For 2D table.
-//		 */
-//		private Object[][] mData;
-//
-//
-//		public GradTableModel() {
-//			mList = getData(null);
-//
-//		}
-//
-//		/**
-//		 * Gets the number of columns
-//		 *
-//		 * @return total number of columns
-//		 */
-//		public int getColumnCount() {
-//			return GradColumnNames.length;
-//		}
-//
-//		/**
-//		 * Gets the number of rows
-//		 *
-//		 * @return total number of rows/entries
-//		 */
-//		public int getRowCount() {
-//			return mData.length;
-//		}
-//
-//		/**
-//		 * Gets names of the columns and puts them in the appropriate place.
-//		 *
-//		 * @param col number
-//		 * @return name of column
-//		 */
-//		public String getColumnName(int col) {
-//			return GradColumnNames[col];
-//		}
-//
-//		/**
-//		 * Fills the value in that cell.
-//		 *
-//		 * @param row row number
-//		 * @param col column number
-//		 * @return the data to be put into the cell.
-//		 */
-//		public Object getValueAt(int row, int col) {
-//			return mData[row][col];
-//		}
-//
-//		/**
-//		 * Determines the type of column class, by default it should be string.
-//		 */
-//		public Class getColumnClass(int c) {
-//			Class clazz = String.class;
-//			switch (c) {
-//				case 1:
-//					clazz = Integer.class;
-//					break;
-//				case 2:
-//					clazz = Integer.class;
-//					break;
-//				case 3:
-//					clazz = Double.class;
-//					break;
-//				case 5:
-//					clazz = Boolean.class;
-//					break;
-//				case 6:
-//					clazz = Boolean.class;
-//					break;
-////				case 7:
-////					clazz = List.class;
-////					break;
-////				case 8:
-////					clazz = List.class;
-////					break;
-//
-//			}
-//			return clazz;
-//		}
-//
-//		/**
-//         * Don't need to implement this method unless your table's
-//         * editable.
-//         */
-//		public boolean isCellEditable(int row, int col) {
-//			return true;
-//		}
-
-//
-//	/**
-//	 * A public class for the JComboBox to render correctly.
-//	 */
-//	public class ComboBoxTableCellRenderer extends JComboBox implements TableCellRenderer {
-//
-//		@Override
-//		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//			setSelectedItem(value);
-//			return this;
-//		}
-//
-//	}
 
 }
 
