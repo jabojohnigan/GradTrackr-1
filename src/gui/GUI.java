@@ -83,10 +83,21 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
      */
 	private JButton btnAddGrad, btnRunReport, btnListGrads , btnBack;
 
-	/**
-	 * List used to access the graduated information
-	 */
-	private List<Graduate> outterList;
+    		/**
+		 * List used to access the graduated information
+		 */
+		private List<Graduate> mList;
+
+		/**
+		 * List of Employer and Internship as Strings
+		 */
+		private List<String> listEmps, listInts;
+
+		/**
+		 * Data For 2D table.
+		 */
+		private Object[][] mData;
+
 	/**
 	 * Launch the application.
 	 */
@@ -134,7 +145,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		setTitle("Grad Trackr");
 		setMinimumSize(DEFAULT_F_MIN);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        mList = getData(null);
 		setLocationRelativeTo(null);
 		addBtnPanel();
 		addTablePanel();
@@ -142,6 +153,48 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
 
 	}
+
+
+    /**
+     * Returns the data (2d) to use in this table.
+     *
+     * @param searchKey
+     * @return
+     */
+    private List<Graduate> getData(String searchKey) {
+        if (searchKey != null) {
+            mList = GraduateCollection.search(searchKey);
+        } else {
+            mList = GraduateCollection.getGraduates();
+        }
+
+        if (mList != null) {
+            mData = new Object[mList.size()][GradColumnNames.length];
+            for (int i = 0; i < mList.size(); i++) {
+                listEmps = mList.get(i).getEmployers();
+                listInts = mList.get(i).getInternships();
+
+                for (int x = 0; x < listEmps.size(); x++) {
+                    cmbEmps.addItem(listEmps.get(x).toString());
+                }
+                for (int y = 0; y < listInts.size(); y++) {
+                    cmbInts.addItem(listInts.get(y).toString());
+                }
+                mData[i][0] = mList.get(i).getName();
+                mData[i][1] = mList.get(i).getGraduateID();
+                mData[i][2] = mList.get(i).getGraduationYear();
+                mData[i][3] = mList.get(i).getGPA();
+                mData[i][4] = mList.get(i).getEmail();
+                mData[i][5] = mList.get(i).isTransferStatus();
+                mData[i][6] = mList.get(i).isResponseFlag();
+                mData[i][7] = listEmps;
+                mData[i][8] = listInts;
+            }
+        }
+        return mList;
+    }
+
+
 
 
 	/**
@@ -172,12 +225,13 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 	public void addTablePanel(){
 
 
-        table = new JTable(new GradTableModel());
+//        table = new JTable(new GradTableModel());
+        table = new JTable(mData, GradColumnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setUpJobColumn(table, table.getColumnModel().getColumn(7),
 				table.getColumnModel().getColumn(8));
 		table.getModel().addTableModelListener(this);
-        initColumnSizes(table);
+
         table.setPreferredScrollableViewportSize(DEFAULT_T_MIN);
 
         //Make Panel with ScrollPane
@@ -200,45 +254,6 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
 	}
 
-	/**
-    * This method picks good column sizes.
-    * If all column heads are wider than the column's cells'
-    * contents, then you can just use column.sizeWidthToFit().
-    */
-	private void initColumnSizes(JTable table) {
-		GradTableModel model = (GradTableModel) table.getModel();
-		TableColumn column = null;
-		Component comp = null;
-		int headerWidth = 0;
-		int cellWidth = 0;
-		Object[] longValues = model.longValues;
-		TableCellRenderer headerRenderer =
-				table.getTableHeader().getDefaultRenderer();
-
-		for (int i = 0; i < 5; i++) {
-			column = table.getColumnModel().getColumn(i);
-
-			comp = headerRenderer.getTableCellRendererComponent(
-					null, column.getHeaderValue(),
-					false, false, 0, 0);
-			headerWidth = comp.getPreferredSize().width;
-
-			comp = table.getDefaultRenderer(model.getColumnClass(i)).
-					getTableCellRendererComponent(
-							table, longValues[i],
-							false, false, 0, i);
-			cellWidth = comp.getPreferredSize().width;
-
-			if (true) {
-				System.out.println("Initializing width of column "
-						+ i + ". "
-						+ "headerWidth = " + headerWidth
-						+ "; cellWidth = " + cellWidth);
-			}
-
-			column.setPreferredWidth(Math.max(headerWidth, cellWidth));
-		}
-	}
 
 
 	/**
@@ -284,7 +299,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		String columnName = model.getColumnName(column);
 		Object data = model.getValueAt(row, column);
 		if (data != null && ((String) data).length() != 0) {
-			Graduate grad = outterList.get(row);
+			Graduate grad = mList.get(row);
 			if (!GraduateCollection.update(grad, columnName, data)) {
 				JOptionPane.showMessageDialog(null, "Update failed");
 
@@ -294,178 +309,137 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		}
 	}
 
-
-	/**
-	 * This Table model inner class acts as the base for constructing a grad table.
-	 * @author Jabo Johnigan
-	 * @version 12/6/2016
-	 */
-	class GradTableModel extends AbstractTableModel {
-		/**
-		 * Name of Columns for table.
-		 */
-		private String[] GradColumnNames = {"graduateName", "graduateId", "graduationYear",
-				"gpa", "email", "transferStatus", "responsive", "employers", "internships"};
-
-		/**
-		 * Values to scale the table headers to in the Column titles.
-		 */
-		Object[] longValues = {"Zachary Volkenstavin", new Integer(913024857), "2099", new Double(4.0) ,
-				"noname@gmail.com", new Boolean(true), new Boolean(false)};
-		/**
-		 * List used to access the graduated information
-		 */
-		private List<Graduate> mList;
-
-		/**
-		 * List of Employer and Internship as Strings
-		 */
-		private List<String> listEmps, listInts;
-
-		/**
-		 * Data For 2D table.
-		 */
-		private Object[][] mData;
-
-
-		public GradTableModel() {
-			mList = getData(null);
-
-		}
-
-		/**
-		 * Gets the number of columns
-		 *
-		 * @return total number of columns
-		 */
-		public int getColumnCount() {
-			return GradColumnNames.length;
-		}
-
-		/**
-		 * Gets the number of rows
-		 *
-		 * @return total number of rows/entries
-		 */
-		public int getRowCount() {
-			return mData.length;
-		}
-
-		/**
-		 * Gets names of the columns and puts them in the appropriate place.
-		 *
-		 * @param col number
-		 * @return name of column
-		 */
-		public String getColumnName(int col) {
-			return GradColumnNames[col];
-		}
-
-		/**
-		 * Fills the value in that cell.
-		 *
-		 * @param row row number
-		 * @param col column number
-		 * @return the data to be put into the cell.
-		 */
-		public Object getValueAt(int row, int col) {
-			return mData[row][col];
-		}
-
-		/**
-		 * Determines the type of column class, by default it should be string.
-		 */
-		public Class getColumnClass(int c) {
-			Class clazz = String.class;
-			switch (c) {
-				case 1:
-					clazz = Integer.class;
-					break;
-				case 2:
-					clazz = Integer.class;
-					break;
-				case 3:
-					clazz = Double.class;
-					break;
-				case 5:
-					clazz = Boolean.class;
-					break;
-				case 6:
-					clazz = Boolean.class;
-					break;
-//				case 7:
-//					clazz = List.class;
+//
+//	/**
+//	 * This Table model inner class acts as the base for constructing a grad table.
+//	 * @author Jabo Johnigan
+//	 * @version 12/6/2016
+//	 */
+//	class GradTableModel extends AbstractTableModel {
+//		/**
+//		 * Name of Columns for table.
+//		 */
+//		private String[] GradColumnNames = {"graduateName", "graduateId", "graduationYear",
+//				"gpa", "email", "transferStatus", "responsive", "employers", "internships"};
+//
+//		/**
+//		 * Values to scale the table headers to in the Column titles.
+//		 */
+//		Object[] longValues = {"Zachary Volkenstavin", new Integer(913024857), "2099", new Double(4.0) ,
+//				"noname@gmail.com", new Boolean(true), new Boolean(false)};
+//		/**
+//		 * List used to access the graduated information
+//		 */
+//		private List<Graduate> mList;
+//
+//		/**
+//		 * List of Employer and Internship as Strings
+//		 */
+//		private List<String> listEmps, listInts;
+//
+//		/**
+//		 * Data For 2D table.
+//		 */
+//		private Object[][] mData;
+//
+//
+//		public GradTableModel() {
+//			mList = getData(null);
+//
+//		}
+//
+//		/**
+//		 * Gets the number of columns
+//		 *
+//		 * @return total number of columns
+//		 */
+//		public int getColumnCount() {
+//			return GradColumnNames.length;
+//		}
+//
+//		/**
+//		 * Gets the number of rows
+//		 *
+//		 * @return total number of rows/entries
+//		 */
+//		public int getRowCount() {
+//			return mData.length;
+//		}
+//
+//		/**
+//		 * Gets names of the columns and puts them in the appropriate place.
+//		 *
+//		 * @param col number
+//		 * @return name of column
+//		 */
+//		public String getColumnName(int col) {
+//			return GradColumnNames[col];
+//		}
+//
+//		/**
+//		 * Fills the value in that cell.
+//		 *
+//		 * @param row row number
+//		 * @param col column number
+//		 * @return the data to be put into the cell.
+//		 */
+//		public Object getValueAt(int row, int col) {
+//			return mData[row][col];
+//		}
+//
+//		/**
+//		 * Determines the type of column class, by default it should be string.
+//		 */
+//		public Class getColumnClass(int c) {
+//			Class clazz = String.class;
+//			switch (c) {
+//				case 1:
+//					clazz = Integer.class;
 //					break;
-//				case 8:
-//					clazz = List.class;
+//				case 2:
+//					clazz = Integer.class;
 //					break;
+//				case 3:
+//					clazz = Double.class;
+//					break;
+//				case 5:
+//					clazz = Boolean.class;
+//					break;
+//				case 6:
+//					clazz = Boolean.class;
+//					break;
+////				case 7:
+////					clazz = List.class;
+////					break;
+////				case 8:
+////					clazz = List.class;
+////					break;
+//
+//			}
+//			return clazz;
+//		}
+//
+//		/**
+//         * Don't need to implement this method unless your table's
+//         * editable.
+//         */
+//		public boolean isCellEditable(int row, int col) {
+//			return true;
+//		}
 
-			}
-			return clazz;
-		}
-
-		/**
-         * Don't need to implement this method unless your table's
-         * editable.
-         */
-		public boolean isCellEditable(int row, int col) {
-			return true;
-		}
-
-		/**
-		 * Returns the data (2d) to use in this table.
-		 *
-		 * @param searchKey
-		 * @return
-		 */
-		private List<Graduate> getData(String searchKey) {
-			if (searchKey != null) {
-				mList = GraduateCollection.search(searchKey);
-			} else {
-				mList = GraduateCollection.getGraduates();
-			}
-
-			if (mList != null) {
-				mData = new Object[mList.size()][GradColumnNames.length];
-				for (int i = 0; i < mList.size(); i++) {
-					listEmps = mList.get(i).getEmployers();
-					listInts = mList.get(i).getInternships();
-
-					for (int x = 0; x < listEmps.size(); x++) {
-						cmbEmps.addItem(listEmps.get(x).toString());
-					}
-					for (int y = 0; y < listInts.size(); y++) {
-						cmbInts.addItem(listInts.get(y).toString());
-					}
-					mData[i][0] = mList.get(i).getName();
-					mData[i][1] = mList.get(i).getGraduateID();
-					mData[i][2] = mList.get(i).getGraduationYear();
-					mData[i][3] = mList.get(i).getGPA();
-					mData[i][4] = mList.get(i).getEmail();
-					mData[i][5] = mList.get(i).isTransferStatus();
-					mData[i][6] = mList.get(i).isResponseFlag();
-					mData[i][7] = listEmps;
-					mData[i][8] = listInts;
-				}
-			}
-			outterList = mList;
-			return mList;
-		}
-
-	}
-
-	/**
-	 * A public class for the JComboBox to render correctly.
-	 */
-	public class ComboBoxTableCellRenderer extends JComboBox implements TableCellRenderer {
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			setSelectedItem(value);
-			return this;
-		}
-
-	}
+//
+//	/**
+//	 * A public class for the JComboBox to render correctly.
+//	 */
+//	public class ComboBoxTableCellRenderer extends JComboBox implements TableCellRenderer {
+//
+//		@Override
+//		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//			setSelectedItem(value);
+//			return this;
+//		}
+//
+//	}
 
 }
 
