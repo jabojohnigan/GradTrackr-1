@@ -452,7 +452,6 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 			return mList;
 		}
 
-
 	}
 
 	/**
