@@ -47,6 +47,18 @@ public class DataReportGUI extends JPanel implements ActionListener {
     private JComboBox cmbCriteria;
 
     /**
+     * The hex RGB value for UW Purple.
+     */
+    private static final String UW_PURPLE = "#4b2e83";
+
+    /**
+     * The hex RGB value for UW Gold.
+     */
+    private static final String UW_GOLD = "#b7a57a";
+
+
+
+    /**
      * Constructor for the data report GUI.
      */
     public DataReportGUI() {
@@ -182,7 +194,8 @@ public class DataReportGUI extends JPanel implements ActionListener {
 
         // A button panel at the top for Data Report
         pnlButton = new JPanel();
-
+        pnlButton.setOpaque(true);
+        pnlButton.setBackground(Color.decode(UW_GOLD));
         btnDataReport = new JButton("Data Report");
         btnDataReport.addActionListener(this);
         pnlButton.add(btnDataReport);
@@ -196,6 +209,8 @@ public class DataReportGUI extends JPanel implements ActionListener {
 
         //display Report Criteria
         JPanel comboPanel = new JPanel();
+        comboPanel.setOpaque(true);
+        comboPanel.setBackground(Color.decode(UW_PURPLE));
         comboPanel.setLayout(new GridLayout(1, 1));
         Object[] reportCriteria = {"Name", "Graduate ID", "Graduation Year", "GPA",
                 "Transferred", "Did Not Transfer","Employer", "Internship"};
@@ -204,20 +219,31 @@ public class DataReportGUI extends JPanel implements ActionListener {
         cmbCriteria.setSelectedIndex(0);
         comboPanel.add(new JLabel("Select Report Criteria: "));
         comboPanel.add(cmbCriteria);
+
         pnlDataReport.add(comboPanel);
 
         JPanel criteriaValuePanel = new JPanel();
+        criteriaValuePanel.setOpaque(true);
+        criteriaValuePanel.setBackground(Color.decode(UW_PURPLE));
         lblTitle = new JLabel("Enter Criteria Value: ");
         txfTitle = new JTextField(25);
         criteriaValuePanel.setLayout(new GridLayout(1, 0));
         criteriaValuePanel.add(lblTitle);
         criteriaValuePanel.add(txfTitle);
+
         pnlDataReport.add(criteriaValuePanel);
+
+        pnlDataReport.setOpaque(true);
+        pnlDataReport.setBackground(Color.decode(UW_PURPLE));
+
+
 
         btnTitleRunReport = new JButton("Run Report");
         btnTitleRunReport.addActionListener(this);
         pnlDataReport.add(btnTitleRunReport);
         pnlContent.add(pnlDataReport);
+        pnlContent.setOpaque(true);
+        pnlContent.setBackground(Color.decode(UW_GOLD));
         add(pnlContent);
     }
 

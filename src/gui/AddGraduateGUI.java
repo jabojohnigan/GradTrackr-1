@@ -35,11 +35,17 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 	
 	private JTextField idField, nameField;
 
-    private JPanel pnlAddGrad, pnlRemoveGrad, pnlAddJobs, pnlButtons, removeBtnPanel;
+    private JPanel pnlAddGrad, pnlRemoveGrad, pnlButtons, removeBtnPanel;
  
     private JButton addViewBtn, removeViewBtn;
 
-    private JButton addEmps, addInts, addGrad, removeGrad;
+    private JButton addGrad, removeGrad;
+
+	/**
+	 * The hex RGB value for UW Gold.
+	 */
+	private static final String UW_GOLD = "#b7a57a";
+
 
 	/**
 	 * Creates the Add Graduate GUI
@@ -57,7 +63,8 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 	 */
 	public void setUpButtons() {
     	pnlButtons = new JPanel();
-    	
+		pnlButtons.setOpaque(true);
+		pnlButtons.setBackground(Color.decode(UW_GOLD));
     	addViewBtn = new JButton("Add a Grad");
     	addViewBtn.addActionListener(this);
     	pnlButtons.add(addViewBtn);
@@ -76,11 +83,14 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
     	pnlAddGrad = new JPanel();
     	pnlAddGrad.setLayout(new GridLayout(10, 0));
     	add(pnlAddGrad, BorderLayout.CENTER);
-    	
+		pnlAddGrad.setOpaque(true);
+		pnlAddGrad.setBackground(Color.decode(UW_GOLD));
     	String[] lblNames = {"Enter Name:", "Enter Student ID:", "Enter Graduate Year:", "Enter GPA:",
                 "Enter Email:", "Transfer Student:", "Responsive:", "Employers:", "Internships:"};
 		for (int i = 0; i < lblNames.length; i++) {
 			JPanel panel = new JPanel();
+			panel.setOpaque(true);
+			panel.setBackground(Color.decode(UW_GOLD));
 			panel.setLayout(new FlowLayout());
 			lblAddGrad[i] = new JLabel(lblNames[i]);
 			txfField[i] = new JTextField(15);
@@ -90,18 +100,22 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		}
 
 		
-		JPanel panel = new JPanel();
+		JPanel addBTNpanel = new JPanel();
 		addGrad = new JButton("Add Grad");
 		addGrad.addActionListener(this);
-		panel.add(addGrad);
+		addBTNpanel.setOpaque(true);
+		addBTNpanel.setBackground(Color.decode(UW_GOLD));
+		addBTNpanel.add(addGrad);
 
-		pnlAddGrad.add(panel);
+		pnlAddGrad.add(addBTNpanel);
 		
 		
 		pnlRemoveGrad = new JPanel(new GridLayout(1, 0));
 		
 		JPanel idPanel = new JPanel();
 		idPanel.setLayout(new FlowLayout());
+		idPanel.setOpaque(true);
+		idPanel.setBackground(Color.decode(UW_GOLD));
 		JLabel idLabel = new JLabel("Search ID:");
 		idField = new JTextField(25);
 		idPanel.add(idLabel);
@@ -111,6 +125,8 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		removeBtnPanel = new JPanel();
 		removeGrad = new JButton("Remove Grad");
 		removeGrad.addActionListener(this);
+		removeBtnPanel.setOpaque(true);
+		removeBtnPanel.setBackground(Color.decode(UW_GOLD));
 		removeBtnPanel.add(removeGrad);
 		
 		
