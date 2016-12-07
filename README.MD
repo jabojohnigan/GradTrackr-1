@@ -20,3 +20,5 @@ Due to time constraints, our minimal viable product was able to provide function
 
 However, we were unable to implement any design patterns or flashy GUI techniques. Our backend of is robust and can be easily transferred. The possibility of expansion and development of our program. 
 
+#The Team
+Connor Cox
