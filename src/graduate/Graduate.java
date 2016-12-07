@@ -104,9 +104,9 @@ public class Graduate {
         StringBuilder sb = new StringBuilder();
         for (String s : myInternships) {
             sb.append(s);
-            sb.append(",");
+            sb.append(", ");
         }
-        return sb.toString();
+        return sb.toString().substring(0, sb.length() - 2);
     }
 
     /**
