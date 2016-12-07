@@ -197,7 +197,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		Ints.setCellRenderer(renderer1);
 	}
 
-	/*
+	/**
     * This method picks good column sizes.
     * If all column heads are wider than the column's cells'
     * contents, then you can just use column.sizeWidthToFit().
@@ -252,7 +252,8 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
             revalidate();
         } else if (e.getSource() == btnListGrads){
             contentPanel.removeAll();
-            contentPanel.add(tblPanel, BorderLayout.CENTER);
+            addTablePanel();
+
             repaint();
             revalidate();
         } else if (e.getSource() == btnRunReport){
@@ -320,7 +321,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 		/**
 		 * Data For 2D table.
 		 */
-		public Object[][] mData;
+		private Object[][] mData;
 
 
 		public GradTableModel() {
@@ -399,18 +400,12 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 			return clazz;
 		}
 
-		/*
+		/**
          * Don't need to implement this method unless your table's
          * editable.
          */
 		public boolean isCellEditable(int row, int col) {
-			//Note that the data/cell address is constant,
-			//no matter where the cell appears onscreen.
-			if (col == 6 && col == 7) {
-				return true;
-			} else {
-				return false;
-			}
+			return true;
 		}
 
 		/**
