@@ -229,13 +229,6 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 							false, false, 0, i);
 			cellWidth = comp.getPreferredSize().width;
 
-			if (true) {
-				System.out.println("Initializing width of column "
-						+ i + ". "
-						+ "headerWidth = " + headerWidth
-						+ "; cellWidth = " + cellWidth);
-			}
-
 			column.setPreferredWidth(Math.max(headerWidth, cellWidth));
 		}
 	}
