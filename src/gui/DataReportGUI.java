@@ -47,11 +47,6 @@ public class DataReportGUI extends JPanel implements ActionListener {
     private JComboBox cmbCriteria;
 
     /**
-     * The hex RGB value for UW Purple.
-     */
-    private static final String UW_PURPLE = "#4b2e83";
-
-    /**
      * The hex RGB value for UW Gold.
      */
     private static final String UW_GOLD = "#b7a57a";
@@ -210,7 +205,7 @@ public class DataReportGUI extends JPanel implements ActionListener {
         //display Report Criteria
         JPanel comboPanel = new JPanel();
         comboPanel.setOpaque(true);
-        comboPanel.setBackground(Color.decode(UW_PURPLE));
+        comboPanel.setBackground(Color.decode(UW_GOLD));
         comboPanel.setLayout(new GridLayout(1, 1));
         Object[] reportCriteria = {"Name", "Graduate ID", "Graduation Year", "GPA",
                 "Transferred", "Did Not Transfer","Employer", "Internship"};
@@ -224,7 +219,7 @@ public class DataReportGUI extends JPanel implements ActionListener {
 
         JPanel criteriaValuePanel = new JPanel();
         criteriaValuePanel.setOpaque(true);
-        criteriaValuePanel.setBackground(Color.decode(UW_PURPLE));
+        criteriaValuePanel.setBackground(Color.decode(UW_GOLD));
         lblTitle = new JLabel("Enter Criteria Value: ");
         txfTitle = new JTextField(25);
         criteriaValuePanel.setLayout(new GridLayout(1, 0));
@@ -234,7 +229,7 @@ public class DataReportGUI extends JPanel implements ActionListener {
         pnlDataReport.add(criteriaValuePanel);
 
         pnlDataReport.setOpaque(true);
-        pnlDataReport.setBackground(Color.decode(UW_PURPLE));
+        pnlDataReport.setBackground(Color.decode(UW_GOLD));
 
 
 
