@@ -23,3 +23,4 @@ However, we were unable to implement any design patterns or flashy GUI technique
 #The Team
 Connor Cox
 Jabo Johnigan
+Vlad Psarev
