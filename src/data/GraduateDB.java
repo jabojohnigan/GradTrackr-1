@@ -137,10 +137,10 @@ public class GraduateDB {
 	public String updateGraduate(Graduate graduate, String columnName, Object data) {
 		
 		String name = graduate.getName();
-		int id = graduate.getGraduateID();
+		int id = graduate.getID();
 		
 		String sql = "update Graduate set `" + columnName
-				+ "` = ?  where name= ? and id = ? ";
+				+ "` = ?  where graduateName = ? and id = ? ";
 		
 		// For debugging - System.out.println(sql);
 		PreparedStatement preparedStatement = null;
