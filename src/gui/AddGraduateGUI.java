@@ -99,14 +99,6 @@ public class AddGraduateGUI extends JPanel implements ActionListener {
 		
 		pnlRemoveGrad = new JPanel(new GridLayout(2, 0));
 		
-		JPanel namePanel = new JPanel();
-		namePanel.setLayout(new GridLayout(2, 0));
-		JLabel nameLabel = new JLabel("Search name:");
-		nameField = new JTextField(25);
-		namePanel.add(nameLabel);
-		namePanel.add(nameField);
-		pnlRemoveGrad.add(namePanel);
-		
 		JPanel idPanel = new JPanel();
 		idPanel.setLayout(new GridLayout(2, 0));
 		JLabel idLabel = new JLabel("Search ID:");
